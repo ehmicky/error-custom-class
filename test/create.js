@@ -9,6 +9,12 @@ test('Sets instance options by default', (t) => {
   t.true(error.one)
 })
 
+test('Can pass symbols as instance options', (t) => {
+  const symbol = Symbol('one')
+  const error = new TestError('test', { [symbol]: true })
+  t.true(error[symbol])
+})
+
 test('Can customize onCreate', (t) => {
   const ErrorType = errorType('TestError', setOneProp)
   const error = new ErrorType('test', { one: true })
