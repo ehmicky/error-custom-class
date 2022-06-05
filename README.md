@@ -6,9 +6,55 @@
 
 Create custom error types.
 
-Work in progress!
+# Features
+
+- [Simple API](#api): `errorType(errorName)`
+- Follows [best practices](#best-practices)
+- Instance properties can be
+  [set on initialization](#custom-initialization-logic):
+  `new CustomError('message', { exampleProp: true })`
+- Polyfills
+  [`error.cause`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause)
+  on
+  [old Node.js and browsers](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause#browser_compatibility)
+- Optional [custom initialization logic](#custom-initialization-logic)
 
 # Examples
+
+<!-- eslint-disable promise/prefer-await-to-callbacks -->
+
+```js
+import errorType from 'error-type'
+
+const InputError = errorType('InputError')
+const DatabaseError = errorType('DatabaseError')
+
+// Throwing with custom error types
+try {
+  throw new InputError('message')
+} catch (error) {
+  console.log(error.name) // 'InputError'
+  console.log(error instanceof InputError) // true
+}
+
+// `error.cause` can be used even in old Node.js or browsers
+try {
+  doSomething()
+} catch (cause) {
+  throw new InputError('message', { cause })
+}
+
+// Error properties can be set using the second argument
+const inputError = new InputError('message', { exampleProp: true })
+console.log(inputError.exampleProp) // true
+
+// Custom initialization logic
+const CoreError = errorType('CoreError', (error, options) => {
+  error.isDatabase = options.databaseId !== undefined
+})
+const coreError = new CoreError('message', { databaseId: 2 })
+console.log(coreError.isDatabase) // true
+```
 
 # Install
 
@@ -22,11 +68,46 @@ not `require()`.
 
 # API
 
-## errorType(name, onCreate?)
+## errorType(errorName, onCreate?)
 
-`name` `string`\
-`onCreate` `function?`\
+`errorName` `string`\
+`onCreate` `(error, options) => void`\
 _Return value_: `ErrorType`
+
+### Custom initialization logic
+
+`onCreate(error, options)` is called on `new ErrorType('message', options)`.
+
+By default, it sets any `options` as `error` properties. However, you can
+override it with any custom logic to validate, normalize options, etc.
+
+# Best practices
+
+A common pattern for custom error types is:
+
+<!-- eslint-disable fp/no-class, fp/no-this, fp/no-mutation -->
+
+```js
+class CustomError extends Error {
+  constructor(message) {
+    super(message)
+    this.name = 'CustomError'
+  }
+}
+```
+
+However, this has several issues:
+
+- [`error.cause`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause)
+  is not set
+- [`error.name`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/name)
+  is enumerable, although it should not. For example, `for (const key in error)`
+  will iterate over `name`, which is unexpected.
+- `error.name` is set on the error instance instead of its prototype. In
+  Node.js, this sometimes results in the error name being printed as
+  `Error [CustomError]` instead of `CustomError`.
+
+`error-type` handles those problems.
 
 # Support
 
