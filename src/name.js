@@ -7,17 +7,6 @@ export const setErrorName = function (ErrorType, name) {
   setNonEnumProp(ErrorType.prototype, 'name', name)
 }
 
-// Ensure those properties are not enumerable
-const setNonEnumProp = function (object, propName, value) {
-  // eslint-disable-next-line fp/no-mutating-methods
-  Object.defineProperty(object, propName, {
-    value,
-    writable: false,
-    enumerable: false,
-    configurable: true,
-  })
-}
-
 // Validate `error.name` looks like `ExampleError` for consistency with
 // native error types and common practices that users might expect
 const validateErrorName = function (name) {
@@ -42,7 +31,33 @@ const validateErrorNamePattern = function (errorName) {
   if (!ERROR_NAME_REGEXP.test(errorName)) {
     throw new Error(`Error name "${errorName}" must only contain letters.`)
   }
+
+  if (NATIVE_ERRORS.has(errorName)) {
+    throw new Error(`Error name "${errorName}" must not be a native type.`)
+  }
 }
 
 const ERROR_NAME_END = 'Error'
 const ERROR_NAME_REGEXP = /[A-Z][a-zA-Z]*Error$/u
+
+const NATIVE_ERRORS = new Set([
+  'Error',
+  'ReferenceError',
+  'TypeError',
+  'SyntaxError',
+  'RangeError',
+  'URIError',
+  'EvalError',
+  'AggregateError',
+])
+
+// Ensure those properties are not enumerable
+const setNonEnumProp = function (object, propName, value) {
+  // eslint-disable-next-line fp/no-mutating-methods
+  Object.defineProperty(object, propName, {
+    value,
+    writable: false,
+    enumerable: false,
+    configurable: true,
+  })
+}
