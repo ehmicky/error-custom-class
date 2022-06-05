@@ -51,4 +51,4 @@ const shouldIgnoreKey = function (error, key) {
   return key in error || IGNORED_KEYS.has(key)
 }
 
-const IGNORED_KEYS = new Set(['errors', 'prototype'])
+const IGNORED_KEYS = new Set(['errors', 'prototype', 'cause'])

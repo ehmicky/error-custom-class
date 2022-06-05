@@ -10,6 +10,8 @@ export default function errorType(name, onCreate = defaultOnCreate) {
       validateOpts(opts)
       super(message, getErrorOpts(opts))
       // eslint-disable-next-line fp/no-this
+      fixCause(this, opts)
+      // eslint-disable-next-line fp/no-this
       onCreate(this, getOnCreateOpts(this, opts))
     }
   }
@@ -28,6 +30,19 @@ const validateOpts = function (opts) {
 }
 
 // Passing `{ cause: undefined }` creates `error.cause`, unlike passing `{}`
-const getErrorOpts = function ({ cause }) {
-  return cause === undefined ? {} : { cause }
+const getErrorOpts = function (opts) {
+  return 'cause' in opts ? { cause: opts.cause } : {}
+}
+
+// Polyfills `error.cause` for Node <16.9.0 and old browsers
+const fixCause = function (error, opts) {
+  if ('cause' in opts && !('cause' in error && opts.cause === error.cause)) {
+    // eslint-disable-next-line fp/no-mutating-methods
+    Object.defineProperty(error, 'cause', {
+      value: opts.cause,
+      enumerable: false,
+      writable: true,
+      configurable: true,
+    })
+  }
 }
