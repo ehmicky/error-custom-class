@@ -37,8 +37,8 @@ try {
 }
 
 // Error properties can be set using the second argument
-const userError = new UserError('message', { exampleProp: true })
-console.log(userError.exampleProp) // true
+const userError = new UserError('message', { userId: 56 })
+console.log(userError.userId) // 56
 
 // `error.cause` can be used even in older Node.js or browsers
 try {
@@ -49,10 +49,11 @@ try {
 
 // Custom initialization logic
 const DatabaseError = errorType('DatabaseError', (error, options) => {
-  error.isDatabase = options.databaseId !== undefined
+  error.dbId = options.databaseId
 })
 const databaseError = new DatabaseError('message', { databaseId: 2 })
-console.log(databaseError.isDatabase) // true
+console.log(databaseError.dbId) // 2
+console.log(databaseError.databaseId) // undefined
 ```
 
 # Install
@@ -99,12 +100,13 @@ However, this has several issues:
 
 - [`error.cause`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause)
   is not set
-- [`error.name`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/name)
-  is enumerable, although it should not. For example, `for (const key in error)`
-  will iterate over `name`, which is unexpected.
-- `error.name` is set on the error instance instead of its prototype. In
-  Node.js, this sometimes results in the error name being printed as
-  `Error [CustomError]` instead of `CustomError`.
+- Unlike native error types, -
+  [`error.name`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/name):
+  - is enumerable, although it should not. For example,
+    `for (const key in error)` will iterate over `name`, which is unexpected.
+  - is set on the error instance instead of its prototype. In Node.js, this
+    sometimes results in the error name being printed as `Error [CustomError]`
+    instead of `CustomError`.
 
 `error-type` handles those problems.
 
