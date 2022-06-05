@@ -22,7 +22,7 @@ not `require()`.
 
 # API
 
-## errorType(name, handler?)
+## errorType(name, onCreate?)
 
 `name` `string`\
 `onCreate` `function?`\
