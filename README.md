@@ -76,7 +76,8 @@ _Return value_: `ErrorType`
 
 ### Custom initialization logic
 
-`onCreate(error, options)` is called on `new ErrorType('message', options)`.
+`onCreate(error, options)` is optional and is called on
+`new ErrorType('message', options)`.
 
 By default, it sets any `options` as `error` properties. However, you can
 override it with any custom logic to validate, normalize options, etc.
