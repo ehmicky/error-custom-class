@@ -9,4 +9,4 @@ export default function errorType<
 >(
   name: string,
   onCreate?: (error: Error, options: T) => void,
-): new (message: string, options?: { cause?: any } & T) => Error
+): new (message: string, options?: T & { cause?: any }) => Error
