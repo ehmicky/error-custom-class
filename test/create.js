@@ -9,12 +9,6 @@ test('Sets instance options by default', (t) => {
   t.true(error.one)
 })
 
-test('Can pass symbols as instance options', (t) => {
-  const symbol = Symbol('one')
-  const error = new TestError('test', { [symbol]: true })
-  t.true(error[symbol])
-})
-
 test('Can customize onCreate', (t) => {
   const ErrorType = errorType('TestError', setOneProp)
   const error = new ErrorType('test', { one: true })
@@ -48,6 +42,22 @@ test('Ignore inherited options', (t) => {
   const opts = { __proto__: { one: true } }
   t.true(opts.one)
   t.false('one' in new TestError('test', opts))
+})
+
+test('Can pass symbols as instance options', (t) => {
+  const symbol = Symbol('one')
+  const error = new TestError('test', { [symbol]: true })
+  t.true(error[symbol])
+})
+
+test('Ignore non-enumerable symbol options', (t) => {
+  const symbol = Symbol('one')
+  // eslint-disable-next-line fp/no-mutating-methods
+  const opts = Object.defineProperty({}, symbol, {
+    value: true,
+    enumerable: false,
+  })
+  t.false(symbol in new TestError('test', opts))
 })
 
 each(

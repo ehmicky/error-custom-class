@@ -32,16 +32,24 @@ export const defaultOnCreate = function (error, opts) {
 export const getOnCreateOpts = function (error, opts) {
   const onCreateOpts = {}
 
-  // eslint-disable-next-line fp/no-loops
+  // eslint-disable-next-line fp/no-loops, guard-for-in
   for (const key in opts) {
-    // eslint-disable-next-line max-depth
-    if (isEnum.call(opts, key) && !shouldIgnoreKey(error, key)) {
-      // eslint-disable-next-line fp/no-mutation
-      onCreateOpts[key] = opts[key]
-    }
+    setKey({ error, opts, key, onCreateOpts })
+  }
+
+  // eslint-disable-next-line fp/no-loops
+  for (const symbol of Object.getOwnPropertySymbols(opts)) {
+    setKey({ error, opts, key: symbol, onCreateOpts })
   }
 
   return onCreateOpts
+}
+
+const setKey = function ({ error, opts, key, onCreateOpts }) {
+  if (isEnum.call(opts, key) && !shouldIgnoreKey(error, key)) {
+    // eslint-disable-next-line fp/no-mutation, no-param-reassign
+    onCreateOpts[key] = opts[key]
+  }
 }
 
 const { propertyIsEnumerable: isEnum } = Object.prototype
