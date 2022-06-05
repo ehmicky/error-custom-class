@@ -20,6 +20,8 @@ Create custom error types.
 
 # Examples
 
+## Custom error types
+
 ```js
 import errorType from 'error-type'
 
@@ -35,11 +37,15 @@ try {
 }
 ```
 
+## Error properties
+
 ```js
 // Error properties can be set using the second argument
 const userError = new UserError('message', { userId: 56 })
 console.log(userError.userId) // 56
 ```
+
+## Error cause
 
 ```js
 // `error.cause` can be used even in older Node.js or browsers
@@ -50,10 +56,11 @@ try {
 }
 ```
 
+## Custom initialization logic
+
 <!-- eslint-disable promise/prefer-await-to-callbacks -->
 
 ```js
-// Custom initialization logic
 const DatabaseError = errorType('DatabaseError', (error, options) => {
   error.dbId = options.databaseId
 })
