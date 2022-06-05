@@ -9,5 +9,5 @@ export default function errorType(
   onCreate?: (error: Error, options: {}) => void,
 ): new (
   message: string,
-  options?: { cause?: any; [index: string | symbol]: any },
+  options?: { cause?: any; [instanceProperty: string | symbol]: any },
 ) => Error
