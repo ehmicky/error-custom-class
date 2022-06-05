@@ -8,15 +8,14 @@ Create custom error types.
 
 # Features
 
-- [Simple API](#api): `errorType(errorName)`
+- [Simple API](#api): `errorType('errorName')`
 - Follows [best practices](#best-practices)
-- Instance properties can be
-  [set on initialization](#custom-initialization-logic):
+- Error properties can be [set on initialization](#custom-initialization-logic):
   `new CustomError('message', { exampleProp: true })`
 - Polyfills
   [`error.cause`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause)
   on
-  [old Node.js and browsers](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause#browser_compatibility)
+  [older Node.js and browsers](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause#browser_compatibility)
 - Optional [custom initialization logic](#custom-initialization-logic)
 
 # Examples
@@ -26,34 +25,34 @@ Create custom error types.
 ```js
 import errorType from 'error-type'
 
-const InputError = errorType('InputError')
-const DatabaseError = errorType('DatabaseError')
+const UserError = errorType('UserError')
+const SystemError = errorType('SystemError')
 
 // Throwing with custom error types
 try {
-  throw new InputError('message')
+  throw new UserError('message')
 } catch (error) {
-  console.log(error.name) // 'InputError'
-  console.log(error instanceof InputError) // true
-}
-
-// `error.cause` can be used even in old Node.js or browsers
-try {
-  doSomething()
-} catch (cause) {
-  throw new InputError('message', { cause })
+  console.log(error.name) // 'UserError'
+  console.log(error instanceof UserError) // true
 }
 
 // Error properties can be set using the second argument
-const inputError = new InputError('message', { exampleProp: true })
-console.log(inputError.exampleProp) // true
+const userError = new UserError('message', { exampleProp: true })
+console.log(userError.exampleProp) // true
+
+// `error.cause` can be used even in older Node.js or browsers
+try {
+  doSomething()
+} catch (cause) {
+  throw new UserError('message', { cause })
+}
 
 // Custom initialization logic
-const CoreError = errorType('CoreError', (error, options) => {
+const DatabaseError = errorType('DatabaseError', (error, options) => {
   error.isDatabase = options.databaseId !== undefined
 })
-const coreError = new CoreError('message', { databaseId: 2 })
-console.log(coreError.isDatabase) // true
+const databaseError = new DatabaseError('message', { databaseId: 2 })
+console.log(databaseError.isDatabase) // true
 ```
 
 # Install
