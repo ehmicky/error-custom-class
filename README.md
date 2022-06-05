@@ -96,19 +96,18 @@ class CustomError extends Error {
 }
 ```
 
-However, this has several issues:
+However, this has several issues (which `error-type` handles):
 
 - [`error.cause`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause)
   is not set
-- Unlike native error types, -
-  [`error.name`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/name):
-  - is enumerable, although it should not. For example,
-    `for (const key in error)` will iterate over `name`, which is unexpected.
-  - is set on the error instance instead of its prototype. In Node.js, this
+- Unlike native error types,
+  [`error.name`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/name)
+  is:
+  - Enumerable, although it should not. For example, `for (const key in error)`
+    will iterate over `name`, which is unexpected.
+  - Set on the error instance instead of its prototype. In Node.js, this
     sometimes results in the error name being printed as `Error [CustomError]`
     instead of `CustomError`.
-
-`error-type` handles those problems.
 
 # Support
 
