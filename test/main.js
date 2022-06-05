@@ -54,3 +54,7 @@ test('Can set undefined error.cause', (t) => {
   t.true('cause' in error)
   t.is(error.cause, undefined)
 })
+
+test('Does not set error.errors by default', (t) => {
+  t.false('errors' in testError)
+})

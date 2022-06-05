@@ -37,6 +37,10 @@ test('error.name is not writable', (t) => {
   })
 })
 
+test('Has correct stack', (t) => {
+  t.true(testError.stack.includes('TestError: test\n'))
+})
+
 test('Has correct toString()', (t) => {
   t.is(testError.toString(), 'TestError: test')
 })
