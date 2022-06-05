@@ -1,5 +1,5 @@
 import errorType from 'error-type'
-import { expectType, expectAssignable, expectError } from 'tsd'
+import { expectAssignable, expectError } from 'tsd'
 
 const ErrorType = errorType('name')
 expectAssignable<NewableFunction>(ErrorType)
