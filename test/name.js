@@ -7,6 +7,9 @@ import { each } from 'test-each'
 const TestError = errorType('TestError')
 const testError = new TestError('test')
 
+const { propertyIsEnumerable: isEnum, hasOwnProperty: hasOwn } =
+  Object.prototype
+
 test('Sets constructor name', (t) => {
   t.is(TestError.name, 'TestError')
 })
@@ -41,9 +44,6 @@ test('Has correct toString()', (t) => {
 test('Has correct util.inspect()', (t) => {
   t.true(inspect(testError).includes('TestError: test\n'))
 })
-
-const { propertyIsEnumerable: isEnum, hasOwnProperty: hasOwn } =
-  Object.prototype
 
 each(
   [
