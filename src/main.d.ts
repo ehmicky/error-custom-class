@@ -1,4 +1,30 @@
 /**
+ * Error type name
+ */
+export type ErrorName = `${string}Error`
+
+/**
+ * Parameters passed to `new ErrorType('message', params)`
+ */
+export type ErrorParams = { [paramProperty: string | symbol]: unknown }
+
+/**
+ * Called on `new ErrorType('message', params)`
+ */
+export type OnCreate<T extends ErrorParams = ErrorParams> = (
+  error: Error,
+  params: T,
+) => void
+
+/**
+ * `ErrorType` returned by `errorType()`
+ */
+export type ErrorType<T extends ErrorParams = ErrorParams> = new (
+  message: string,
+  params?: T & { cause?: unknown },
+) => Error
+
+/**
  * Creates a custom error type.
  *
  * `onCreate(error, params)` is optional and is called on
@@ -45,29 +71,3 @@ export default function errorType<T extends ErrorParams = ErrorParams>(
   errorName: ErrorName,
   onCreate?: OnCreate<T>,
 ): ErrorType<T>
-
-/**
- * Error type name
- */
-export type ErrorName = `${string}Error`
-
-/**
- * Called on `new ErrorType('message', params)`.
- */
-export type OnCreate<T extends ErrorParams = ErrorParams> = (
-  error: Error,
-  params: T,
-) => void
-
-/**
- * Parameters passed to `new ErrorType('message', params)`
- */
-export type ErrorParams = { [instanceProperty: string | symbol]: any }
-
-/**
- * `ErrorType` returned by `errorType()`
- */
-export type ErrorType<T extends ErrorParams = ErrorParams> = new (
-  message: string,
-  params?: T & { cause?: any },
-) => Error
