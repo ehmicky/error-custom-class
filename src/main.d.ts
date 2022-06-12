@@ -59,6 +59,9 @@ export type OnCreate<T extends ErrorParams = ErrorParams> = (
  */
 export type ErrorParams = { [instanceProperty: string | symbol]: any }
 
+/**
+ * `ErrorType` returned by `errorType()`
+ */
 export type ErrorType<T extends ErrorParams = ErrorParams> = new (
   message: string,
   params?: T & { cause?: any },
