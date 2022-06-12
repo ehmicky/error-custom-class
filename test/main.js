@@ -37,6 +37,16 @@ test('error.stack is not enumerable', (t) => {
   t.false(isEnum.call(testError, 'stack'))
 })
 
+const isStackLine = function (line) {
+  return line.trim().startsWith('at ')
+}
+
+test('error.stack does not include the constructor', (t) => {
+  const lines = testError.stack.split('\n')
+  const stackIndex = lines.findIndex(isStackLine)
+  t.true(lines[stackIndex].includes('main.js'))
+})
+
 test('Sets error.cause', (t) => {
   t.is(new TestError('test', { cause: 'test' }).cause, 'test')
 })
