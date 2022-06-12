@@ -9,6 +9,7 @@ import { setNonEnumProp } from './set.js'
 //  - It is V8 specific
 //  - And on V8 (unlike in some browsers like Firefox), `Error.stack`
 //    automatically omits the stack lines from custom error constructors
+//  - Also, this would force child types to also use `Error.captureStackTrace()`
 export default function errorType(name, onCreate = defaultOnCreate) {
   const ErrorType = class extends Error {
     constructor(message, params = {}) {
