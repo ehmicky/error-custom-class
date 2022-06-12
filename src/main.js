@@ -52,6 +52,11 @@ const fixPrototype = function (context, newTargetProto) {
     // eslint-disable-next-line fp/no-mutating-methods
     Object.setPrototypeOf(context, newTargetProto)
   }
+
+  if (context.constructor !== newTargetProto.constructor) {
+    // eslint-disable-next-line fp/no-mutation, no-param-reassign
+    context.constructor = newTargetProto.constructor
+  }
 }
 
 // Polyfills `error.cause` for Node <16.9.0 and old browsers

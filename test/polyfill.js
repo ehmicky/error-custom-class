@@ -12,10 +12,10 @@ const childError = new ChildError('test', { one: true })
 
 each(
   [
-    { error: testError, title: 'testError' },
-    { error: childError, title: 'childError' },
+    { error: testError, ErrorType: TestError },
+    { error: childError, ErrorType: ChildError },
   ],
-  ({ title }, { error }) => {
+  ({ title }, { error, ErrorType }) => {
     test(`Polyfilled error keeps constructor behavior | ${title}`, (t) => {
       t.true(error.one)
     })
@@ -26,6 +26,10 @@ each(
 
     test(`Polyfilled error is instanceof custom Error | ${title}`, (t) => {
       t.true(error instanceof TestError)
+    })
+
+    test(`Polyfilled error has right constructor | ${title}`, (t) => {
+      t.is(error.constructor, ErrorType)
     })
   },
 )
