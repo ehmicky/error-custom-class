@@ -32,14 +32,9 @@ export const defaultOnCreate = function (error, params) {
 export const getOnCreateParams = function (error, params) {
   const onCreateParams = {}
 
-  // eslint-disable-next-line fp/no-loops, guard-for-in
-  for (const key in params) {
-    setKey({ error, params, key, onCreateParams })
-  }
-
   // eslint-disable-next-line fp/no-loops
-  for (const symbol of Object.getOwnPropertySymbols(params)) {
-    setKey({ error, params, key: symbol, onCreateParams })
+  for (const key of Reflect.ownKeys(params)) {
+    setKey({ error, params, key, onCreateParams })
   }
 
   return onCreateParams
