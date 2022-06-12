@@ -52,7 +52,7 @@ const NATIVE_ERRORS = new Set([
 ])
 
 // Ensure those properties are not enumerable
-const setNonEnumProp = function (object, propName, value) {
+export const setNonEnumProp = function (object, propName, value) {
   // eslint-disable-next-line fp/no-mutating-methods
   Object.defineProperty(object, propName, {
     value,

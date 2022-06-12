@@ -1,5 +1,5 @@
 import { defaultOnCreate, getOnCreateOpts } from './create.js'
-import { setErrorName } from './name.js'
+import { setErrorName, setNonEnumProp } from './name.js'
 
 // Create an error type with a specific `name`.
 // The constructor allows setting either `error.cause` or any properties:
@@ -62,12 +62,6 @@ const fixPrototype = function (context, newTargetProto) {
 // Polyfills `error.cause` for Node <16.9.0 and old browsers
 const fixCause = function (error, opts) {
   if ('cause' in opts && !('cause' in error && opts.cause === error.cause)) {
-    // eslint-disable-next-line fp/no-mutating-methods
-    Object.defineProperty(error, 'cause', {
-      value: opts.cause,
-      enumerable: false,
-      writable: true,
-      configurable: true,
-    })
+    setNonEnumProp(error, 'cause', opts.cause)
   }
 }
