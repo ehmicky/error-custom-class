@@ -5,6 +5,10 @@ import { setNonEnumProp } from './set.js'
 // Create an error type with a specific `name`.
 // The constructor allows setting either `error.cause` or any properties:
 // `new ErrorType('message', { anyProp: true })`
+// We do not call `Error.captureStackTrace(this, ErrorType)` because:
+//  - It is V8 specific
+//  - And on V8 (unlike in some browsers like Firefox), `Error.stack`
+//    automatically omits the stack lines from custom error constructors
 export default function errorType(name, onCreate = defaultOnCreate) {
   const ErrorType = class extends Error {
     constructor(message, params = {}) {
