@@ -44,7 +44,7 @@
 export default function errorType<T extends ErrorParams = ErrorParams>(
   errorName: string,
   onCreate?: OnCreate<T>,
-): new (message: string, params?: T & { cause?: any }) => Error
+): ErrorType<T>
 
 /**
  * Called on `new ErrorType('message', params)`.
@@ -58,3 +58,8 @@ export type OnCreate<T extends ErrorParams = ErrorParams> = (
  * Parameters passed to `new ErrorType('message', params)`
  */
 export type ErrorParams = { [instanceProperty: string | symbol]: any }
+
+export type ErrorType<T extends ErrorParams = ErrorParams> = new (
+  message: string,
+  params?: T & { cause?: any },
+) => Error

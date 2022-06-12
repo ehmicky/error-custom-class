@@ -1,4 +1,4 @@
-import errorType, { OnCreate, ErrorParams } from 'error-type'
+import errorType, { OnCreate, ErrorParams, ErrorType } from 'error-type'
 import { expectAssignable, expectNotAssignable, expectError } from 'tsd'
 
 const ErrorType = errorType('name')
@@ -30,3 +30,6 @@ expectNotAssignable<OnCreate>((_: boolean) => {})
 
 expectAssignable<ErrorParams>({ anyProp: true })
 expectNotAssignable<ErrorParams>(true)
+
+expectAssignable<ErrorType>(ErrorType)
+expectNotAssignable<ErrorType>(() => {})
