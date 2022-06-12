@@ -41,9 +41,11 @@
  * console.log(databaseError.databaseId) // undefined
  * ```
  */
-export default function errorType<
-  T extends { [instanceProperty: string | symbol]: any },
->(
+export default function errorType<T extends ErrorParams>(
   errorName: string,
-  onCreate?: (error: Error, options: T) => void,
+  onCreate?: OnCreate<T>,
 ): new (message: string, options?: T & { cause?: any }) => Error
+
+export type OnCreate<T extends ErrorParams> = (error: Error, options: T) => void
+
+export type ErrorParams = { [instanceProperty: string | symbol]: any }
