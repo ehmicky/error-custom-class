@@ -149,6 +149,8 @@ try {
 
 # Best practices
 
+## Constructor
+
 A common pattern for custom error types is:
 
 <!-- eslint-disable fp/no-class, fp/no-this, fp/no-mutation -->
@@ -174,6 +176,14 @@ However, this has several issues (which `error-type` handles):
   - Set on the error instance instead of its prototype. In Node.js, this
     sometimes results in the error name being printed as `Error [CustomError]`
     instead of `CustomError`.
+
+## Polyfills
+
+If the global `Error` constructor is polyfilled (for example with
+[`error-cause`](https://github.com/es-shims/error-cause)), this might prevent
+extending from it. This library includes
+[some logic](https://github.com/ehmicky/error-type/blob/4ac5e53dde8a89411a59f16775f91a36ab3662b2/src/main.js#L50)
+to fix this.
 
 # Support
 
