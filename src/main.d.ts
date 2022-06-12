@@ -42,9 +42,14 @@
  * ```
  */
 export default function errorType<T extends ErrorParams = ErrorParams>(
-  errorName: string,
+  errorName: ErrorName,
   onCreate?: OnCreate<T>,
 ): ErrorType<T>
+
+/**
+ * Error type name
+ */
+export type ErrorName = `${string}Error`
 
 /**
  * Called on `new ErrorType('message', params)`.
