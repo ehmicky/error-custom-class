@@ -10,6 +10,8 @@ export default function errorType(name, onCreate = defaultOnCreate) {
       validateOpts(opts)
       super(message, getErrorOpts(opts))
       // eslint-disable-next-line fp/no-this
+      fixPrototype(this, new.target.prototype)
+      // eslint-disable-next-line fp/no-this
       fixCause(this, opts)
       // eslint-disable-next-line fp/no-this
       onCreate(this, getOnCreateOpts(this, opts))
@@ -32,6 +34,24 @@ const validateOpts = function (opts) {
 // Passing `{ cause: undefined }` creates `error.cause`, unlike passing `{}`
 const getErrorOpts = function (opts) {
   return 'cause' in opts ? { cause: opts.cause } : {}
+}
+
+// If the global `Error` type was monkey-patched, it is likely to return an
+// `Error` instance.
+//   - Returning a value from a constructor is a bad practice since it changes
+//     the prototype of the new instance.
+//   - This means `instanceof` or `constructor` checks will fail, and child
+//     prototype properties will not be inherited
+// A common library that does this is `error-cause` which polyfills
+// `error.cause`.
+// We fix this by detecting such situation and re-setting the prototype.
+// We use `new.target` so that this works even if `ErrorType` is subclassed
+// itself.
+const fixPrototype = function (context, newTargetProto) {
+  if (Object.getPrototypeOf(context) !== newTargetProto) {
+    // eslint-disable-next-line fp/no-mutating-methods
+    Object.setPrototypeOf(context, newTargetProto)
+  }
 }
 
 // Polyfills `error.cause` for Node <16.9.0 and old browsers
