@@ -14,10 +14,10 @@ test('Has right error type', (t) => {
 })
 
 // eslint-disable-next-line unicorn/no-null
-each([null, 'test'], ({ title }, opts) => {
-  test(`Validate against invalid instance options | ${title}`, (t) => {
+each([null, 'test'], ({ title }, params) => {
+  test(`Validate against invalid instance params | ${title}`, (t) => {
     // eslint-disable-next-line max-nested-callbacks
-    t.throws(() => new TestError('test', opts))
+    t.throws(() => new TestError('test', params))
   })
 })
 

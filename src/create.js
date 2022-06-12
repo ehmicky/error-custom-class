@@ -1,7 +1,7 @@
-// `onCreate(error, opts)` allows custom logic at initialization time.
-// The construction `opts` are passed, i.e. can be validated, normalized, etc.
+// `onCreate(error, params)` allows custom logic at initialization time.
+// The construction `params` are passed, i.e. can be validated, normalized, etc.
 // `onCreate()` is useful to assign error instance-specific properties.
-//  - Therefore, the default value just assign `opts`.
+//  - Therefore, the default value just assign `params`.
 // Properties that are error type-specific (i.e. same for all instances of that
 // type):
 //  - Should use a separate object where the key is the `error.name` and the
@@ -17,38 +17,38 @@
 //     - By assigning them in `onCreate()` using
 //       `Object.assign(this, object[error.name])`
 //        - This is simpler for the error catching|consuming logic
-export const defaultOnCreate = function (error, opts) {
+export const defaultOnCreate = function (error, params) {
   // eslint-disable-next-line fp/no-mutating-assign
-  Object.assign(error, opts)
+  Object.assign(error, params)
 }
 
-// When passing options to `onCreate()`, ignore keys that:
+// When passing parameters to `onCreate()`, ignore keys that:
 //  - Would override `Object` prototype (`hasOwnProperty`, etc.) or `Error`
 //    prototype (`toString`)
 //  - Are prototype-specific (`__proto__`, `prototype`, `constructor`)
 //  - Are core error properties (`name`, `message`, `stack`, `cause`, `errors`)
 //  - Are inherited
 //  - Are not enumerable
-export const getOnCreateOpts = function (error, opts) {
-  const onCreateOpts = {}
+export const getOnCreateParams = function (error, params) {
+  const onCreateParams = {}
 
   // eslint-disable-next-line fp/no-loops, guard-for-in
-  for (const key in opts) {
-    setKey({ error, opts, key, onCreateOpts })
+  for (const key in params) {
+    setKey({ error, params, key, onCreateParams })
   }
 
   // eslint-disable-next-line fp/no-loops
-  for (const symbol of Object.getOwnPropertySymbols(opts)) {
-    setKey({ error, opts, key: symbol, onCreateOpts })
+  for (const symbol of Object.getOwnPropertySymbols(params)) {
+    setKey({ error, params, key: symbol, onCreateParams })
   }
 
-  return onCreateOpts
+  return onCreateParams
 }
 
-const setKey = function ({ error, opts, key, onCreateOpts }) {
-  if (isEnum.call(opts, key) && !shouldIgnoreKey(error, key)) {
+const setKey = function ({ error, params, key, onCreateParams }) {
+  if (isEnum.call(params, key) && !shouldIgnoreKey(error, key)) {
     // eslint-disable-next-line fp/no-mutation, no-param-reassign
-    onCreateOpts[key] = opts[key]
+    onCreateParams[key] = params[key]
   }
 }
 

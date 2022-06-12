@@ -1,10 +1,10 @@
 /**
  * Creates a custom error type.
  *
- * `onCreate(error, options)` is optional and is called on
- * `new ErrorType('message', options)`.
- * By default, it sets any `options` as `error` properties. However, you can
- * override it with any custom logic to validate, normalize options, etc.
+ * `onCreate(error, params)` is optional and is called on
+ * `new ErrorType('message', params)`.
+ * By default, it sets any `params` as `error` properties. However, you can
+ * override it with any custom logic to validate, normalize `params`, etc.
  *
  * @example
  * ```js
@@ -33,8 +33,8 @@
  * }
  *
  * // Custom initialization logic
- * const DatabaseError = errorType('DatabaseError', (error, options) => {
- *   error.dbId = options.databaseId
+ * const DatabaseError = errorType('DatabaseError', (error, params) => {
+ *   error.dbId = params.databaseId
  * })
  * const databaseError = new DatabaseError('message', { databaseId: 2 })
  * console.log(databaseError.dbId) // 2
@@ -44,14 +44,14 @@
 export default function errorType<T extends ErrorParams = ErrorParams>(
   errorName: string,
   onCreate?: OnCreate<T>,
-): new (message: string, options?: T & { cause?: any }) => Error
+): new (message: string, params?: T & { cause?: any }) => Error
 
 /**
- * Called on `new ErrorType('message', options)`.
+ * Called on `new ErrorType('message', params)`.
  */
 export type OnCreate<T extends ErrorParams = ErrorParams> = (
   error: Error,
-  options: T,
+  params: T,
 ) => void
 
 /**

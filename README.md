@@ -61,8 +61,8 @@ try {
 <!-- eslint-disable promise/prefer-await-to-callbacks -->
 
 ```js
-const DatabaseError = errorType('DatabaseError', (error, options) => {
-  error.dbId = options.databaseId
+const DatabaseError = errorType('DatabaseError', (error, params) => {
+  error.dbId = params.databaseId
 })
 const databaseError = new DatabaseError('message', { databaseId: 2 })
 console.log(databaseError.dbId) // 2
@@ -84,16 +84,16 @@ not `require()`.
 ## errorType(errorName, onCreate?)
 
 `errorName` `string`\
-`onCreate` `(error, options) => void`\
+`onCreate` `(error, params) => void`\
 _Return value_: `ErrorType`
 
 ### Custom initialization logic
 
-`onCreate(error, options)` is optional and is called on
-`new ErrorType('message', options)`.
+`onCreate(error, params)` is optional and is called on
+`new ErrorType('message', params)`.
 
-By default, it sets any `options` as `error` properties. However, you can
-override it with any custom logic to validate, normalize options, etc.
+By default, it sets any `params` as `error` properties. However, you can
+override it with any custom logic to validate, normalize `params`, etc.
 
 ### Error type properties
 
@@ -112,8 +112,8 @@ const ERROR_PROPS = {
   CoreError: { isBug: true },
 }
 
-const onCreate = function (error, options) {
-  Object.assign(error, options, ERROR_PROPS[error.name])
+const onCreate = function (error, params) {
+  Object.assign(error, params, ERROR_PROPS[error.name])
 }
 
 const UserError = errorType('UserError', onCreate)

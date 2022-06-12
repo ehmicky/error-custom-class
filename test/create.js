@@ -4,7 +4,7 @@ import { each } from 'test-each'
 
 const TestError = errorType('TestError')
 
-test('Sets instance options by default', (t) => {
+test('Sets instance params by default', (t) => {
   const error = new TestError('test', { one: true })
   t.true(error.one)
 })
@@ -20,44 +20,44 @@ const setOneProp = function (error, { one }) {
   error.two = one
 }
 
-test('Does not ignore enumerable options', (t) => {
+test('Does not ignore enumerable params', (t) => {
   // eslint-disable-next-line fp/no-mutating-methods
-  const opts = Object.defineProperty({}, 'one', {
+  const params = Object.defineProperty({}, 'one', {
     value: true,
     enumerable: true,
   })
-  t.true(new TestError('test', opts).one)
+  t.true(new TestError('test', params).one)
 })
 
-test('Ignore non-enumerable options', (t) => {
+test('Ignore non-enumerable params', (t) => {
   // eslint-disable-next-line fp/no-mutating-methods
-  const opts = Object.defineProperty({}, 'one', {
+  const params = Object.defineProperty({}, 'one', {
     value: true,
     enumerable: false,
   })
-  t.false('one' in new TestError('test', opts))
+  t.false('one' in new TestError('test', params))
 })
 
-test('Ignore inherited options', (t) => {
-  const opts = { __proto__: { one: true } }
-  t.true(opts.one)
-  t.false('one' in new TestError('test', opts))
+test('Ignore inherited params', (t) => {
+  const params = { __proto__: { one: true } }
+  t.true(params.one)
+  t.false('one' in new TestError('test', params))
 })
 
-test('Can pass symbols as instance options', (t) => {
+test('Can pass symbols as instance params', (t) => {
   const symbol = Symbol('one')
   const error = new TestError('test', { [symbol]: true })
   t.true(error[symbol])
 })
 
-test('Ignore non-enumerable symbol options', (t) => {
+test('Ignore non-enumerable symbol params', (t) => {
   const symbol = Symbol('one')
   // eslint-disable-next-line fp/no-mutating-methods
-  const opts = Object.defineProperty({}, symbol, {
+  const params = Object.defineProperty({}, symbol, {
     value: true,
     enumerable: false,
   })
-  t.false(symbol in new TestError('test', opts))
+  t.false(symbol in new TestError('test', params))
 })
 
 each(
@@ -77,7 +77,7 @@ each(
     'valueOf',
   ],
   ({ title }, propName) => {
-    test(`Ignore some instance options | ${title}`, (t) => {
+    test(`Ignore some instance params | ${title}`, (t) => {
       const error = new TestError('test', { [propName]: true })
       t.not(error[propName], true)
     })

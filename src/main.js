@@ -1,4 +1,4 @@
-import { defaultOnCreate, getOnCreateOpts } from './create.js'
+import { defaultOnCreate, getOnCreateParams } from './create.js'
 import { setErrorName } from './name.js'
 import { setNonEnumProp } from './set.js'
 
@@ -7,15 +7,15 @@ import { setNonEnumProp } from './set.js'
 // `new ErrorType('message', { anyProp: true })`
 export default function errorType(name, onCreate = defaultOnCreate) {
   const ErrorType = class extends Error {
-    constructor(message, opts = {}) {
-      validateOpts(opts)
-      super(message, getErrorOpts(opts))
+    constructor(message, params = {}) {
+      validateParams(params)
+      super(message, getErrorParams(params))
       // eslint-disable-next-line fp/no-this
       fixPrototype(this, new.target.prototype)
       // eslint-disable-next-line fp/no-this
-      fixCause(this, opts)
+      fixCause(this, params)
       // eslint-disable-next-line fp/no-this
-      onCreate(this, getOnCreateOpts(this, opts))
+      onCreate(this, getOnCreateParams(this, params))
     }
   }
   setErrorName(ErrorType, name)
@@ -24,17 +24,17 @@ export default function errorType(name, onCreate = defaultOnCreate) {
 
 // Due to `error.cause`, the second argument should always be a plain object
 // We enforce no third argument since this is cleaner.
-const validateOpts = function (opts) {
-  if (typeof opts !== 'object' || opts === null) {
+const validateParams = function (params) {
+  if (typeof params !== 'object' || params === null) {
     throw new TypeError(
-      `Error's second argument must be a plain object: ${opts}`,
+      `Error's second argument must be a plain object: ${params}`,
     )
   }
 }
 
 // Passing `{ cause: undefined }` creates `error.cause`, unlike passing `{}`
-const getErrorOpts = function (opts) {
-  return 'cause' in opts ? { cause: opts.cause } : {}
+const getErrorParams = function (params) {
+  return 'cause' in params ? { cause: params.cause } : {}
 }
 
 // If the global `Error` type was monkey-patched, it is likely to return an
@@ -61,8 +61,11 @@ const fixPrototype = function (context, newTargetProto) {
 }
 
 // Polyfills `error.cause` for Node <16.9.0 and old browsers
-const fixCause = function (error, opts) {
-  if ('cause' in opts && !('cause' in error && opts.cause === error.cause)) {
-    setNonEnumProp(error, 'cause', opts.cause)
+const fixCause = function (error, params) {
+  if (
+    'cause' in params &&
+    !('cause' in error && params.cause === error.cause)
+  ) {
+    setNonEnumProp(error, 'cause', params.cause)
   }
 }
