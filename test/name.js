@@ -30,11 +30,11 @@ test('error.name is not enumerable', (t) => {
   t.false(isEnum.call(testError, 'name'))
 })
 
-test('error.name is not writable', (t) => {
-  t.throws(() => {
-    // eslint-disable-next-line fp/no-mutation
-    testError.name = ''
-  })
+test('error.name is writable', (t) => {
+  t.true(
+    Object.getOwnPropertyDescriptor(Object.getPrototypeOf(testError), 'name')
+      .writable,
+  )
 })
 
 test('Has correct stack', (t) => {
