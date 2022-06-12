@@ -17,7 +17,7 @@ export type OnCreate<T extends ErrorParams = ErrorParams> = (
 ) => void
 
 /**
- * `ErrorType` returned by `errorType()`
+ * Error constructor type
  */
 export type ErrorType<T extends ErrorParams = ErrorParams> = new (
   message: string,
