@@ -1,5 +1,6 @@
 import { defaultOnCreate, getOnCreateOpts } from './create.js'
-import { setErrorName, setNonEnumProp } from './name.js'
+import { setErrorName } from './name.js'
+import { setNonEnumProp } from './set.js'
 
 // Create an error type with a specific `name`.
 // The constructor allows setting either `error.cause` or any properties:

@@ -1,3 +1,5 @@
+import { setNonEnumProp } from './set.js'
+
 // To mimic native error types and to print correctly with `util.inspect()`:
 //  - `error.name` should be assigned on the prototype, not on the instance
 //  - the constructor `name` must be set too
@@ -50,14 +52,3 @@ const NATIVE_ERRORS = new Set([
   'EvalError',
   'AggregateError',
 ])
-
-// Ensure those properties are not enumerable
-export const setNonEnumProp = function (object, propName, value) {
-  // eslint-disable-next-line fp/no-mutating-methods
-  Object.defineProperty(object, propName, {
-    value,
-    writable: true,
-    enumerable: false,
-    configurable: true,
-  })
-}
