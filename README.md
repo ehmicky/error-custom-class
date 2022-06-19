@@ -179,11 +179,22 @@ However, this has several issues (which `error-type` handles):
 
 ## Polyfills
 
-If the global `Error` constructor is polyfilled (for example with
-[`error-cause`](https://github.com/es-shims/error-cause)), this might prevent
+Some `Error` polyfills (such as
+[`es-shims/error-cause`](https://github.com/es-shims/error-cause) prevent
 extending from it. This library includes
 [some logic](https://github.com/ehmicky/error-type/blob/4ac5e53dde8a89411a59f16775f91a36ab3662b2/src/main.js#L50)
 to fix this.
+
+# Related projects
+
+- [`modern-errors`](https://github.com/ehmicky/modern-errors): Handle errors
+  like it's 2022 🔮
+- [`normalize-exception`](https://github.com/ehmicky/normalize-exception):
+  Normalize exceptions/errors
+- [`merge-error-cause`](https://github.com/ehmicky/merge-error-cause): Merge an
+  error with its `cause`
+- [`error-cause-polyfill`](https://github.com/ehmicky/error-cause-polyfill):
+  Polyfill `error.cause`
 
 # Support
 
