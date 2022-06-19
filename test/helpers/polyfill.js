@@ -1,6 +1,4 @@
-// eslint-disable-next-line n/file-extension-in-import, import/no-unassigned-import
-import 'error-cause/auto'
-// eslint-disable-next-line import/order
+// eslint-disable-next-line ava/no-ignored-test-files
 import test from 'ava'
 import errorType from 'error-type'
 import { each } from 'test-each'
