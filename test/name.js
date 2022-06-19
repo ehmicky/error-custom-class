@@ -60,6 +60,9 @@ each(
     'Error',
     'TypeError',
     'AggregateError',
+    'DOMException',
+    'SystemError',
+    'AssertionError',
   ],
   ({ title }, name) => {
     test(`Validate against invalid names | ${title}`, (t) => {
