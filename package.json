@@ -50,7 +50,7 @@
     "error-cause": "^1.0.4",
     "error-cause-polyfill": "^1.0.4",
     "test-each": "^5.0.0",
-    "tsd": "^0.20.0"
+    "tsd": "^0.21.0"
   },
   "engines": {
     "node": ">=14.18.0"
