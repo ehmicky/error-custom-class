@@ -45,6 +45,8 @@ const NATIVE_ERRORS = new Set([
   // Node.js specific
   'SystemError',
   'AssertionError',
+  'Warning',
+  'UnhandledPromiseRejection',
 
   // DOM specific
   'DOMException',

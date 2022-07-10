@@ -63,6 +63,8 @@ each(
     'DOMException',
     'SystemError',
     'AssertionError',
+    'Warning',
+    'UnhandledPromiseRejection',
   ],
   ({ title }, name) => {
     test(`Validate against invalid names | ${title}`, (t) => {
