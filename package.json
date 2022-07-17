@@ -46,7 +46,7 @@
     "test": "test"
   },
   "devDependencies": {
-    "@ehmicky/dev-tasks": "^1.0.80",
+    "@ehmicky/dev-tasks": "^1.0.81",
     "error-cause": "^1.0.4",
     "error-cause-polyfill": "^1.0.4",
     "test-each": "^5.1.1",
