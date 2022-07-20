@@ -1,10 +1,11 @@
+import { expectAssignable, expectNotAssignable, expectError } from 'tsd'
+
 import errorType, {
   ErrorName,
   OnCreate,
   ErrorParams,
   ErrorType,
-} from 'error-type'
-import { expectAssignable, expectNotAssignable, expectError } from 'tsd'
+} from './main.js'
 
 const TestError = errorType('TestError')
 
