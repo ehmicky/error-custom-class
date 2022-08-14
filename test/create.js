@@ -10,8 +10,8 @@ test('Sets instance params by default', (t) => {
 })
 
 test('Can customize onCreate', (t) => {
-  const ErrorType = errorType('TestError', setOneProp)
-  const error = new ErrorType('test', { one: true })
+  const CustomErrorType = errorType('TestError', setOneProp)
+  const error = new CustomErrorType('test', { one: true })
   t.false('one' in error)
   t.true(error.two)
 })

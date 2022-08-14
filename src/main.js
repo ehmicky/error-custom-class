@@ -4,14 +4,14 @@ import { setNonEnumProp } from './set.js'
 
 // Create an error type with a specific `name`.
 // The constructor allows setting either `error.cause` or any properties:
-// `new ErrorType('message', { anyProp: true })`
-// We do not call `Error.captureStackTrace(this, ErrorType)` because:
+// `new CustomErrorType('message', { anyProp: true })`
+// We do not call `Error.captureStackTrace(this, CustomErrorType)` because:
 //  - It is V8 specific
 //  - And on V8 (unlike in some browsers like Firefox), `Error.stack`
 //    automatically omits the stack lines from custom error constructors
 //  - Also, this would force child types to also use `Error.captureStackTrace()`
 export default function errorType(name, onCreate = defaultOnCreate) {
-  const ErrorType = class extends Error {
+  const CustomErrorType = class extends Error {
     constructor(message, params = {}) {
       validateParams(params)
       super(message, getErrorParams(params))
@@ -23,8 +23,8 @@ export default function errorType(name, onCreate = defaultOnCreate) {
       onCreate(this, getOnCreateParams(this, params))
     }
   }
-  setErrorName(ErrorType, name)
-  return ErrorType
+  setErrorName(CustomErrorType, name)
+  return CustomErrorType
 }
 
 // Due to `error.cause`, the second argument should always be a plain object
@@ -51,8 +51,8 @@ const getErrorParams = function (params) {
 // A common library that does this is `error-cause` which polyfills
 // `error.cause`.
 // We fix this by detecting such situation and re-setting the prototype.
-// We use `new.target` so that this works even if `ErrorType` is subclassed
-// itself.
+// We use `new.target` so that this works even if `CustomErrorType` is
+// subclassed itself.
 const fixPrototype = function (context, newTargetProto) {
   if (Object.getPrototypeOf(context) !== newTargetProto) {
     // eslint-disable-next-line fp/no-mutating-methods

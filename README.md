@@ -85,12 +85,12 @@ not `require()`.
 
 `errorName` `string`\
 `onCreate` `(error, params) => void`\
-_Return value_: `ErrorType`
+_Return value_: `CustomErrorType`
 
 ### Custom initialization logic
 
 `onCreate(error, params)` is optional and is called on
-`new ErrorType('message', params)`.
+`new CustomErrorType('message', params)`.
 
 By default, it sets any `params` as `error` properties. However, you can
 override it with any custom logic to validate, normalize `params`, etc.
