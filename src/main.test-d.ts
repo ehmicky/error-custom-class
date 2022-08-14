@@ -9,11 +9,11 @@ import errorType, {
   ErrorName,
   OnCreate,
   ErrorParams,
-  ErrorInstance,
-  ErrorConstructor,
+  CustomError,
 } from './main.js'
 
 const TestError = errorType('TestError')
+const testError = new TestError('message')
 
 errorType('TestError')
 expectError(errorType())
@@ -26,19 +26,15 @@ expectNotAssignable<ErrorName>('name')
 expectNotAssignable<ErrorName>(Symbol('TestError'))
 
 expectError(errorType('TestError', {}))
-expectError(errorType('TestError', (_: ErrorInstance, __: boolean) => {}))
+expectError(errorType('TestError', (_: CustomError, __: boolean) => {}))
 expectError(errorType('TestError', (_: boolean, __: {}) => {}))
-expectAssignable<OnCreate>((_: ErrorInstance, __: { test?: boolean }) => {})
+expectAssignable<OnCreate>((_: CustomError, __: { test?: boolean }) => {})
 expectNotAssignable<OnCreate>((_: boolean) => {})
 
-expectAssignable<ErrorConstructor>(TestError)
-expectNotAssignable<ErrorConstructor>(Error)
-expectNotAssignable<ErrorConstructor>(() => {})
+expectAssignable<typeof CustomError<'TestError'>>(TestError)
+expectNotAssignable<typeof CustomError<'TestError'>>(Error)
+expectNotAssignable<typeof CustomError>(() => {})
 
-expectAssignable<ErrorInstance>(new TestError('message'))
-expectAssignable<Error>(new TestError('message'))
-
-new TestError('message')
 expectError(new TestError())
 expectError(new TestError(true))
 
@@ -49,11 +45,13 @@ new TestError('message', { [Symbol('test')]: true })
 expectError(new TestError('message', true))
 const TestErrorTwo = errorType(
   'TestError',
-  (_: ErrorInstance, __: { test?: boolean }) => {},
+  (_: CustomError, __: { test?: boolean }) => {},
 )
 expectError(new TestErrorTwo('message', { other: true }))
 expectAssignable<ErrorParams>({ anyProp: true })
 expectNotAssignable<ErrorParams>(true)
 
-const { name } = new TestError('message')
-expectType<'TestError'>(name)
+expectType<CustomError<'TestError'>>(testError)
+expectType<InstanceType<typeof TestError>>(testError)
+expectAssignable<Error>(testError)
+expectType<'TestError'>(testError.name)

@@ -14,18 +14,18 @@ export type ErrorParams = { [paramProperty: string | symbol]: unknown }
 export type OnCreate<
   ErrorNameArg extends ErrorName = ErrorName,
   ErrorParamsArg extends ErrorParams = ErrorParams,
-> = (error: ErrorInstance<ErrorNameArg>, params: ErrorParamsArg) => void
+> = (
+  error: CustomError<ErrorNameArg, ErrorParamsArg>,
+  params: ErrorParamsArg,
+) => void
 
-export type ErrorConstructor<
+export declare class CustomError<
   ErrorNameArg extends ErrorName = ErrorName,
   ErrorParamsArg extends ErrorParams = ErrorParams,
-> = new (
-  message: string,
-  params?: ErrorParamsArg & { cause?: unknown },
-) => ErrorInstance<ErrorNameArg>
-
-export type ErrorInstance<ErrorNameArg extends ErrorName = ErrorName> =
-  Error & { name: ErrorNameArg }
+> extends Error {
+  constructor(message: string, params?: ErrorParamsArg & { cause?: unknown })
+  name: ErrorNameArg
+}
 
 /**
  * Creates a custom error type.
@@ -76,4 +76,4 @@ export default function errorType<
 >(
   errorName: ErrorNameArg,
   onCreate?: OnCreate<ErrorNameArg, ErrorParamsArg>,
-): ErrorConstructor<ErrorNameArg, ErrorParamsArg>
+): typeof CustomError<ErrorNameArg, ErrorParamsArg>
