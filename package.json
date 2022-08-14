@@ -49,7 +49,7 @@
     "@ehmicky/dev-tasks": "^1.0.84",
     "error-cause": "^1.0.4",
     "error-cause-polyfill": "^1.0.4",
-    "test-each": "^5.1.2"
+    "test-each": "^5.2.0"
   },
   "engines": {
     "node": ">=14.18.0"
