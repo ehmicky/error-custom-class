@@ -31,7 +31,8 @@ expectError(errorType('TestError', (_: boolean, __: {}) => {}))
 expectAssignable<OnCreate>((_: CustomError, __: { test?: boolean }) => {})
 expectNotAssignable<OnCreate>((_: boolean) => {})
 
-expectAssignable<typeof CustomError<'TestError'>>(TestError)
+expectType<typeof CustomError<'TestError'>>(TestError)
+expectType<typeof TestError>(TestError)
 expectNotAssignable<typeof CustomError<'TestError'>>(Error)
 expectNotAssignable<typeof CustomError>(() => {})
 
@@ -53,5 +54,6 @@ expectNotAssignable<ErrorParams>(true)
 
 expectType<CustomError<'TestError'>>(testError)
 expectType<InstanceType<typeof TestError>>(testError)
+expectType<typeof testError>(testError)
 expectAssignable<Error>(testError)
 expectType<'TestError'>(testError.name)
