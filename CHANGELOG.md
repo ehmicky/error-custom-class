@@ -1,8 +1,9 @@
-# 1.3.2
+# 2.0.0
 
-## Bug fixes
+## Breaking changes
 
-- Fix types
+- Split `ErrorType` type into `ErrorConstructor` and `ErrorInstance`
+- Add a template parameter `ErrorName` to all types
 
 # 1.3.1
 
