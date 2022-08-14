@@ -12,7 +12,7 @@ export type ErrorParams = { [paramProperty: string | symbol]: unknown }
  * Called on `new ErrorType('message', params)`
  */
 export type OnCreate<T extends ErrorParams = ErrorParams> = (
-  error: Error,
+  error: ErrorType<T>,
   params: T,
 ) => void
 

@@ -20,15 +20,16 @@ expectNotAssignable<ErrorName>('name')
 expectNotAssignable<ErrorName>(Symbol('TestError'))
 
 expectError(errorType('TestError', {}))
-expectError(errorType('TestError', (_: Error, __: boolean) => {}))
+expectError(errorType('TestError', (_: ErrorType, __: boolean) => {}))
 expectError(errorType('TestError', (_: boolean, __: {}) => {}))
-expectAssignable<OnCreate>((_: Error, __: { test?: boolean }) => {})
+expectAssignable<OnCreate>((_: ErrorType, __: { test?: boolean }) => {})
 expectNotAssignable<OnCreate>((_: boolean) => {})
 
 expectAssignable<typeof ErrorType>(TestError)
 expectAssignable<typeof ErrorType>(Error)
 expectNotAssignable<typeof ErrorType>(() => {})
 
+expectAssignable<ErrorType>(new TestError('message'))
 expectAssignable<Error>(new TestError('message'))
 
 new TestError('message')
@@ -42,7 +43,7 @@ new TestError('message', { [Symbol('test')]: true })
 expectError(new TestError('message', true))
 const TestErrorTwo = errorType(
   'TestError',
-  (_: Error, __: { test?: boolean }) => {},
+  (_: ErrorType, __: { test?: boolean }) => {},
 )
 expectError(new TestErrorTwo('message', { other: true }))
 expectAssignable<ErrorParams>({ anyProp: true })
