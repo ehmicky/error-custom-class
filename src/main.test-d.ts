@@ -9,8 +9,8 @@ import errorType, {
   ErrorName,
   OnCreate,
   ErrorParams,
-  ErrorType,
-  ErrorTypeConstructor,
+  ErrorInstance,
+  ErrorConstructor,
 } from './main.js'
 
 const TestError = errorType('TestError')
@@ -26,16 +26,16 @@ expectNotAssignable<ErrorName>('name')
 expectNotAssignable<ErrorName>(Symbol('TestError'))
 
 expectError(errorType('TestError', {}))
-expectError(errorType('TestError', (_: ErrorType, __: boolean) => {}))
+expectError(errorType('TestError', (_: ErrorInstance, __: boolean) => {}))
 expectError(errorType('TestError', (_: boolean, __: {}) => {}))
-expectAssignable<OnCreate>((_: ErrorType, __: { test?: boolean }) => {})
+expectAssignable<OnCreate>((_: ErrorInstance, __: { test?: boolean }) => {})
 expectNotAssignable<OnCreate>((_: boolean) => {})
 
-expectAssignable<ErrorTypeConstructor>(TestError)
-expectNotAssignable<ErrorTypeConstructor>(Error)
-expectNotAssignable<ErrorTypeConstructor>(() => {})
+expectAssignable<ErrorConstructor>(TestError)
+expectNotAssignable<ErrorConstructor>(Error)
+expectNotAssignable<ErrorConstructor>(() => {})
 
-expectAssignable<ErrorType>(new TestError('message'))
+expectAssignable<ErrorInstance>(new TestError('message'))
 expectAssignable<Error>(new TestError('message'))
 
 new TestError('message')
@@ -49,7 +49,7 @@ new TestError('message', { [Symbol('test')]: true })
 expectError(new TestError('message', true))
 const TestErrorTwo = errorType(
   'TestError',
-  (_: ErrorType, __: { test?: boolean }) => {},
+  (_: ErrorInstance, __: { test?: boolean }) => {},
 )
 expectError(new TestErrorTwo('message', { other: true }))
 expectAssignable<ErrorParams>({ anyProp: true })

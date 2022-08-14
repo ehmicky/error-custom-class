@@ -1,3 +1,9 @@
+# 1.3.2
+
+## Bug fixes
+
+- Fix types
+
 # 1.3.1
 
 ## Bug fixes
