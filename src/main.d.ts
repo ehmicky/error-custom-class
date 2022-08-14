@@ -17,12 +17,11 @@ export type OnCreate<T extends ErrorParams = ErrorParams> = (
 ) => void
 
 /**
- * Error constructor type
+ * Error type
  */
-export type ErrorType<T extends ErrorParams = ErrorParams> = new (
-  message: string,
-  params?: T & { cause?: unknown },
-) => Error
+export class ErrorType<T extends ErrorParams = ErrorParams> extends Error {
+  constructor(message: string, params?: T & { cause?: unknown })
+}
 
 /**
  * Creates a custom error type.
@@ -70,4 +69,4 @@ export type ErrorType<T extends ErrorParams = ErrorParams> = new (
 export default function errorType<T extends ErrorParams = ErrorParams>(
   errorName: ErrorName,
   onCreate?: OnCreate<T>,
-): ErrorType<T>
+): typeof ErrorType<T>
