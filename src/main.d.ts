@@ -11,16 +11,27 @@ export type ErrorParams = { [paramProperty: string | symbol]: unknown }
 /**
  * Called on `new ErrorType('message', params)`
  */
-export type OnCreate<T extends ErrorParams = ErrorParams> = (
-  error: ErrorType<T>,
-  params: T,
-) => void
+export type OnCreate<
+  ErrorNameArg extends ErrorName = ErrorName,
+  ErrorParamsArg extends ErrorParams = ErrorParams,
+> = (error: ErrorType<ErrorNameArg>, params: ErrorParamsArg) => void
+
+/**
+ * Error type constructor
+ */
+export type ErrorTypeConstructor<
+  ErrorNameArg extends ErrorName = ErrorName,
+  ErrorParamsArg extends ErrorParams = ErrorParams,
+> = new (
+  message: string,
+  params?: ErrorParamsArg & { cause?: unknown },
+) => ErrorType<ErrorNameArg>
 
 /**
  * Error type
  */
-export class ErrorType<T extends ErrorParams = ErrorParams> extends Error {
-  constructor(message: string, params?: T & { cause?: unknown })
+export type ErrorType<ErrorNameArg extends ErrorName = ErrorName> = Error & {
+  name: ErrorNameArg
 }
 
 /**
@@ -66,7 +77,10 @@ export class ErrorType<T extends ErrorParams = ErrorParams> extends Error {
  * console.log(databaseError.databaseId) // undefined
  * ```
  */
-export default function errorType<T extends ErrorParams = ErrorParams>(
-  errorName: ErrorName,
-  onCreate?: OnCreate<T>,
-): typeof ErrorType<T>
+export default function errorType<
+  ErrorNameArg extends ErrorName = ErrorName,
+  ErrorParamsArg extends ErrorParams = ErrorParams,
+>(
+  errorName: ErrorNameArg,
+  onCreate?: OnCreate<ErrorNameArg, ErrorParamsArg>,
+): ErrorTypeConstructor<ErrorNameArg, ErrorParamsArg>

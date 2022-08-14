@@ -1,10 +1,16 @@
-import { expectAssignable, expectNotAssignable, expectError } from 'tsd'
+import {
+  expectAssignable,
+  expectNotAssignable,
+  expectError,
+  expectType,
+} from 'tsd'
 
 import errorType, {
   ErrorName,
   OnCreate,
   ErrorParams,
   ErrorType,
+  ErrorTypeConstructor,
 } from './main.js'
 
 const TestError = errorType('TestError')
@@ -25,9 +31,9 @@ expectError(errorType('TestError', (_: boolean, __: {}) => {}))
 expectAssignable<OnCreate>((_: ErrorType, __: { test?: boolean }) => {})
 expectNotAssignable<OnCreate>((_: boolean) => {})
 
-expectAssignable<typeof ErrorType>(TestError)
-expectAssignable<typeof ErrorType>(Error)
-expectNotAssignable<typeof ErrorType>(() => {})
+expectAssignable<ErrorTypeConstructor>(TestError)
+expectNotAssignable<ErrorTypeConstructor>(Error)
+expectNotAssignable<ErrorTypeConstructor>(() => {})
 
 expectAssignable<ErrorType>(new TestError('message'))
 expectAssignable<Error>(new TestError('message'))
@@ -48,3 +54,6 @@ const TestErrorTwo = errorType(
 expectError(new TestErrorTwo('message', { other: true }))
 expectAssignable<ErrorParams>({ anyProp: true })
 expectNotAssignable<ErrorParams>(true)
+
+const { name } = new TestError('message')
+expectType<'TestError'>(name)
