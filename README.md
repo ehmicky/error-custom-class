@@ -189,6 +189,8 @@ to fix this.
 
 - [`modern-errors`](https://github.com/ehmicky/modern-errors): Handle errors
   like it's 2022 🔮
+- [`error-serializer`](https://github.com/ehmicky/error-serializer): Convert
+  errors to/from plain objects
 - [`normalize-exception`](https://github.com/ehmicky/normalize-exception):
   Normalize exceptions/errors
 - [`merge-error-cause`](https://github.com/ehmicky/merge-error-cause): Merge an
