@@ -42,9 +42,8 @@ export declare class CustomError<
  * import errorType from 'error-type'
  *
  * const UserError = errorType('UserError')
- * const SystemError = errorType('SystemError')
+ * const DatabaseError = errorType('DatabaseError')
  *
- * // Throwing with custom error types
  * try {
  *   throw new UserError('message')
  * } catch (error) {

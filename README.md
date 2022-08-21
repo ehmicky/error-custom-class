@@ -11,7 +11,7 @@ Create custom error types.
 - [Simple API](#api): `errorType('errorName')`
 - Follows [best practices](#best-practices)
 - Error properties can be [set on initialization](#error-properties):
-  `new CustomError('message', { props: { exampleProp: true } })`
+  `new CustomError('message', { props: { example: true } })`
 - Polyfills
   [`error.cause`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause)
   on
@@ -26,9 +26,8 @@ Create custom error types.
 import errorType from 'error-type'
 
 const UserError = errorType('UserError')
-const SystemError = errorType('SystemError')
+const DatabaseError = errorType('DatabaseError')
 
-// Throwing with custom error types
 try {
   throw new UserError('message')
 } catch (error) {
@@ -84,12 +83,12 @@ not `require()`.
 
 `errorName` `string`\
 `onCreate` `(error, params) => void`\
-_Return value_: `CustomErrorType`
+_Return value_: `CustomError`
 
 ### Custom initialization logic
 
 `onCreate(error, params)` is optional and is called on
-`new CustomErrorType('message', params)`.
+`new CustomError('message', params)`.
 
 By default, it sets any `params.props` as `error` properties. However, you can
 override it with any custom logic to validate, normalize `params`, etc.
@@ -127,7 +126,7 @@ However, this has several issues (which `error-type` handles):
 ## Polyfills
 
 Some `Error` polyfills (such as
-[`es-shims/error-cause`](https://github.com/es-shims/error-cause) prevent
+[`es-shims/error-cause`](https://github.com/es-shims/error-cause)) prevent
 extending from it. This library includes
 [some logic](https://github.com/ehmicky/error-type/blob/4ac5e53dde8a89411a59f16775f91a36ab3662b2/src/main.js#L50)
 to fix this.
