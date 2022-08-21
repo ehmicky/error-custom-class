@@ -1,10 +1,16 @@
+# 4.0.0
+
+## Breaking changes
+
+- The project was renamed from `error-type` to `error-custom-class`
+
 # 3.0.0
 
 ## Breaking changes
 
 - Error properties are now set by default using
-  `new ErrorType('message', { props: { ... } })` instead of
-  `new ErrorType('message', { ... })`
+  `new CustomError('message', { props: { ... } })` instead of
+  `new CustomError('message', { ... })`
 
 # 2.0.1
 
