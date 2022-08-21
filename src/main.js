@@ -2,15 +2,16 @@ import { setErrorName } from './name.js'
 import { isObject, normalizeParams, defaultOnCreate } from './params.js'
 import { setNonEnumProp } from './set.js'
 
-// Create an error type with a specific `name`.
-// We do not call `Error.captureStackTrace(this, CustomErrorType)` because:
+// Create an error class with a specific `name`.
+// We do not call `Error.captureStackTrace(this, CustomErrorClass)` because:
 //  - It is V8 specific
 //  - And on V8 (unlike in some browsers like Firefox), `Error.stack`
 //    automatically omits the stack lines from custom error constructors
-//  - Also, this would force child types to also use `Error.captureStackTrace()`
+//  - Also, this would force child classes to also use
+//    `Error.captureStackTrace()`
 /* eslint-disable fp/no-this */
 export default function errorType(name, onCreate = defaultOnCreate) {
-  const CustomErrorType = class extends Error {
+  const CustomErrorClass = class extends Error {
     constructor(message, params) {
       super(message, getErrorParams(params))
       fixPrototype(this, new.target.prototype)
@@ -18,8 +19,8 @@ export default function errorType(name, onCreate = defaultOnCreate) {
       onCreate(this, normalizeParams(this, params))
     }
   }
-  setErrorName(CustomErrorType, name)
-  return CustomErrorType
+  setErrorName(CustomErrorClass, name)
+  return CustomErrorClass
 }
 /* eslint-enable fp/no-this */
 
@@ -27,7 +28,7 @@ const getErrorParams = function (params) {
   return hasCause(params) ? { cause: params.cause } : {}
 }
 
-// If the global `Error` type was monkey-patched, it is likely to return an
+// If the global `Error` class was monkey-patched, it is likely to return an
 // `Error` instance.
 //   - Returning a value from a constructor is a bad practice since it changes
 //     the prototype of the new instance.
@@ -36,7 +37,7 @@ const getErrorParams = function (params) {
 // A common library that does this is `error-cause` which polyfills
 // `error.cause`.
 // We fix this by detecting such situation and re-setting the prototype.
-// We use `new.target` so that this works even if `CustomErrorType` is
+// We use `new.target` so that this works even if `CustomErrorClass` is
 // subclassed itself.
 const fixPrototype = function (context, newTargetProto) {
   if (Object.getPrototypeOf(context) !== newTargetProto) {

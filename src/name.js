@@ -1,16 +1,16 @@
 import { setNonEnumProp } from './set.js'
 
-// To mimic native error types and to print correctly with `util.inspect()`:
+// To mimic native error classes and to print correctly with `util.inspect()`:
 //  - `error.name` should be assigned on the prototype, not on the instance
 //  - the constructor `name` must be set too
-export const setErrorName = function (CustomErrorType, name) {
+export const setErrorName = function (CustomErrorClass, name) {
   validateErrorName(name)
-  setNonEnumProp(CustomErrorType, 'name', name)
-  setNonEnumProp(CustomErrorType.prototype, 'name', name)
+  setNonEnumProp(CustomErrorClass, 'name', name)
+  setNonEnumProp(CustomErrorClass.prototype, 'name', name)
 }
 
 // Validate `error.name` looks like `ExampleError` for consistency with
-// native error types and common practices that users might expect
+// native error classes and common practices that users might expect
 const validateErrorName = function (name) {
   if (typeof name !== 'string') {
     throw new TypeError(`Error name must be a string: ${name}`)
@@ -27,7 +27,7 @@ const validateErrorName = function (name) {
 
 const validateNativeErrors = function (errorName) {
   if (NATIVE_ERRORS.has(errorName)) {
-    throw new Error(`Error name "${errorName}" must not be a native type.`)
+    throw new Error(`Error name "${errorName}" must not be a native class.`)
   }
 }
 

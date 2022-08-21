@@ -11,5 +11,5 @@ const onCreate = function (error, { props, ...params }) {
   error.params = params
 }
 
-// Error type to test `params` and `params.props`
+// Error class to test `params` and `params.props`
 export const TestError = errorType('TestError', onCreate)

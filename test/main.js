@@ -6,7 +6,7 @@ const { propertyIsEnumerable: isEnum } = Object.prototype
 const TestError = errorType('TestError')
 const testError = new TestError('test')
 
-test('Has right error type', (t) => {
+test('Has right error class', (t) => {
   t.not(Object.getPrototypeOf(testError), Error.prototype)
   t.true(testError instanceof TestError)
   t.true(testError instanceof Error)

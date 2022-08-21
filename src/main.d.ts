@@ -1,17 +1,17 @@
 /**
- * Error type name
+ * Error class name
  */
 export type ErrorName = `${string}Error`
 
 /**
- * Parameters passed to `new CustomErrorType('message', params)`
+ * Parameters passed to `new CustomError('message', params)`
  */
 export interface ErrorParams {
   [param: string | symbol]: unknown
 }
 
 /**
- * Called on `new CustomErrorType('message', params)`
+ * Called on `new CustomError('message', params)`
  */
 export type OnCreate<
   ErrorNameArg extends ErrorName = ErrorName,
@@ -30,10 +30,10 @@ export declare class CustomError<
 }
 
 /**
- * Creates a custom error type.
+ * Creates a custom error class.
  *
  * `onCreate(error, params)` is optional and is called on
- * `new CustomErrorType('message', params)`.
+ * `new CustomError('message', params)`.
  * By default, it sets any `params.props` as `error` properties. However, you
  * can override it with any custom logic to validate, normalize `params`, etc.
  *

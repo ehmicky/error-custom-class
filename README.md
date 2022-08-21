@@ -4,7 +4,7 @@
 [![Twitter](https://img.shields.io/badge/%E2%80%8B-twitter-brightgreen.svg?logo=twitter)](https://twitter.com/intent/follow?screen_name=ehmicky)
 [![Medium](https://img.shields.io/badge/%E2%80%8B-medium-brightgreen.svg?logo=medium)](https://medium.com/@ehmicky)
 
-Create custom error types.
+Create custom error classes.
 
 # Features
 
@@ -20,7 +20,7 @@ Create custom error types.
 
 # Examples
 
-## Custom error types
+## Custom error classes
 
 ```js
 import errorType from 'error-type'
@@ -97,7 +97,7 @@ override it with any custom logic to validate, normalize `params`, etc.
 
 ## Constructor
 
-A common pattern for custom error types is:
+A common pattern for custom error classes is:
 
 <!-- eslint-disable fp/no-class, fp/no-this, fp/no-mutation -->
 
@@ -114,7 +114,7 @@ However, this has several issues (which `error-type` handles):
 
 - [`error.cause`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause)
   is not set
-- Unlike native error types,
+- Unlike native error classes,
   [`error.name`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/name)
   is:
   - Enumerable, although it should not. For example, `for (const key in error)`
@@ -136,7 +136,7 @@ to fix this.
 - [`modern-errors`](https://github.com/ehmicky/modern-errors): Handle errors
   like it's 2022 🔮
 - [`create-error-types`](https://github.com/ehmicky/create-error-types): Create
-  multiple error types
+  multiple error classes
 - [`error-serializer`](https://github.com/ehmicky/error-serializer): Convert
   errors to/from plain objects
 - [`normalize-exception`](https://github.com/ehmicky/normalize-exception):
