@@ -1,10 +1,10 @@
 import test from 'ava'
-import errorType from 'error-type'
+import errorCustomClass from 'error-custom-class'
 
 import { TestError } from '../helpers/params.js'
 
 test('Sets params.props by default', (t) => {
-  const DefaultTestError = errorType('TestError')
+  const DefaultTestError = errorCustomClass('TestError')
   const error = new DefaultTestError('test', { props: { one: true } })
   t.true(error.one)
 })

@@ -39,10 +39,10 @@ export declare class CustomError<
  *
  * @example
  * ```js
- * import errorType from 'error-type'
+ * import errorCustomClass from 'error-custom-class'
  *
- * const UserError = errorType('UserError')
- * const DatabaseError = errorType('DatabaseError')
+ * const UserError = errorCustomClass('UserError')
+ * const DatabaseError = errorCustomClass('DatabaseError')
  *
  * try {
  *   throw new UserError('message')
@@ -62,7 +62,7 @@ export declare class CustomError<
  * }
  *
  * // Custom initialization logic
- * const DatabaseError = errorType('DatabaseError', (error, { props }) => {
+ * const DatabaseError = errorCustomClass('DatabaseError', (error, { props }) => {
  *   error.dbId = props.databaseId
  * })
  * const databaseError = new DatabaseError('message', { props: { databaseId: 2 } })
@@ -70,7 +70,7 @@ export declare class CustomError<
  * console.log(databaseError.databaseId) // undefined
  * ```
  */
-export default function errorType<
+export default function errorCustomClass<
   ErrorNameArg extends ErrorName = ErrorName,
   ErrorParamsArg extends ErrorParams = ErrorParams,
 >(

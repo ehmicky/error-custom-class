@@ -1,9 +1,9 @@
 import test from 'ava'
-import errorType from 'error-type'
+import errorCustomClass from 'error-custom-class'
 
 const { propertyIsEnumerable: isEnum } = Object.prototype
 
-const TestError = errorType('TestError')
+const TestError = errorCustomClass('TestError')
 const testError = new TestError('test')
 
 test('Has right error class', (t) => {

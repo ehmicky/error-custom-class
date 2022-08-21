@@ -5,29 +5,29 @@ import {
   expectType,
 } from 'tsd'
 
-import errorType, {
+import errorCustomClass, {
   ErrorName,
   OnCreate,
   ErrorParams,
   CustomError,
 } from './main.js'
 
-const TestError = errorType('TestError')
+const TestError = errorCustomClass('TestError')
 const testError = new TestError('message')
 
-errorType('TestError')
-expectError(errorType())
-expectError(errorType(true))
-expectError(errorType('name'))
-expectError(errorType(Symbol('TestError')))
+errorCustomClass('TestError')
+expectError(errorCustomClass())
+expectError(errorCustomClass(true))
+expectError(errorCustomClass('name'))
+expectError(errorCustomClass(Symbol('TestError')))
 expectAssignable<ErrorName>('TestError')
 expectNotAssignable<ErrorName>(true)
 expectNotAssignable<ErrorName>('name')
 expectNotAssignable<ErrorName>(Symbol('TestError'))
 
-expectError(errorType('TestError', {}))
-expectError(errorType('TestError', (_: CustomError, __: boolean) => {}))
-expectError(errorType('TestError', (_: boolean, __: {}) => {}))
+expectError(errorCustomClass('TestError', {}))
+expectError(errorCustomClass('TestError', (_: CustomError, __: boolean) => {}))
+expectError(errorCustomClass('TestError', (_: boolean, __: {}) => {}))
 expectAssignable<OnCreate>((_: CustomError, __: { test?: boolean }) => {})
 expectNotAssignable<OnCreate>((_: boolean) => {})
 
@@ -44,7 +44,7 @@ new TestError('message', { cause: true })
 new TestError('message', { props: { anyProp: true } })
 new TestError('message', { props: { [Symbol('test')]: true } })
 expectError(new TestError('message', true))
-const TestErrorTwo = errorType(
+const TestErrorTwo = errorCustomClass(
   'TestError',
   (_: CustomError, __: { test?: boolean }) => {},
 )

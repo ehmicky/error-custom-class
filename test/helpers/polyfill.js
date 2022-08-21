@@ -1,9 +1,9 @@
 // eslint-disable-next-line ava/no-ignored-test-files
 import test from 'ava'
-import errorType from 'error-type'
+import errorCustomClass from 'error-custom-class'
 import { each } from 'test-each'
 
-const TestError = errorType('TestError')
+const TestError = errorCustomClass('TestError')
 const testError = new TestError('test', { props: { one: true } })
 const ChildError = class extends TestError {}
 const childError = new ChildError('test', { props: { one: true } })

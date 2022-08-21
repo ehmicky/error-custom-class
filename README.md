@@ -1,6 +1,6 @@
-[![Codecov](https://img.shields.io/codecov/c/github/ehmicky/error-type.svg?label=tested&logo=codecov)](https://codecov.io/gh/ehmicky/error-type)
+[![Codecov](https://img.shields.io/codecov/c/github/ehmicky/error-custom-class.svg?label=tested&logo=codecov)](https://codecov.io/gh/ehmicky/error-custom-class)
 [![TypeScript](https://img.shields.io/badge/-typed-brightgreen?logo=typescript&colorA=gray&logoColor=0096ff)](/src/main.d.ts)
-[![Node](https://img.shields.io/node/v/error-type.svg?logo=node.js&logoColor=66cc33)](https://www.npmjs.com/package/error-type)
+[![Node](https://img.shields.io/node/v/error-custom-class.svg?logo=node.js&logoColor=66cc33)](https://www.npmjs.com/package/error-custom-class)
 [![Twitter](https://img.shields.io/badge/%E2%80%8B-twitter-brightgreen.svg?logo=twitter)](https://twitter.com/intent/follow?screen_name=ehmicky)
 [![Medium](https://img.shields.io/badge/%E2%80%8B-medium-brightgreen.svg?logo=medium)](https://medium.com/@ehmicky)
 
@@ -8,7 +8,7 @@ Create custom error classes.
 
 # Features
 
-- [Simple API](#api): `errorType('errorName')`
+- [Simple API](#api): `errorCustomClass('errorName')`
 - Follows [best practices](#best-practices)
 - Error properties can be [set on initialization](#error-properties):
   `new CustomError('message', { props: { example: true } })`
@@ -23,10 +23,10 @@ Create custom error classes.
 ## Custom error classes
 
 ```js
-import errorType from 'error-type'
+import errorCustomClass from 'error-custom-class'
 
-const UserError = errorType('UserError')
-const DatabaseError = errorType('DatabaseError')
+const UserError = errorCustomClass('UserError')
+const DatabaseError = errorCustomClass('DatabaseError')
 
 try {
   throw new UserError('message')
@@ -59,7 +59,7 @@ try {
 <!-- eslint-disable promise/prefer-await-to-callbacks -->
 
 ```js
-const DatabaseError = errorType('DatabaseError', (error, { props }) => {
+const DatabaseError = errorCustomClass('DatabaseError', (error, { props }) => {
   error.dbId = props.databaseId
 })
 const databaseError = new DatabaseError('message', { props: { databaseId: 2 } })
@@ -70,7 +70,7 @@ console.log(databaseError.databaseId) // undefined
 # Install
 
 ```bash
-npm install error-type
+npm install error-custom-class
 ```
 
 This package is an ES module and must be loaded using
@@ -79,7 +79,7 @@ not `require()`.
 
 # API
 
-## errorType(errorName, onCreate?)
+## errorCustomClass(errorName, onCreate?)
 
 `errorName` `string`\
 `onCreate` `(error, params) => void`\
@@ -110,7 +110,7 @@ class CustomError extends Error {
 }
 ```
 
-However, this has several issues (which `error-type` handles):
+However, this has several issues (which `error-custom-class` handles):
 
 - [`error.cause`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause)
   is not set
@@ -128,14 +128,14 @@ However, this has several issues (which `error-type` handles):
 Some `Error` polyfills (such as
 [`es-shims/error-cause`](https://github.com/es-shims/error-cause)) prevent
 extending from it. This library includes
-[some logic](https://github.com/ehmicky/error-type/blob/4ac5e53dde8a89411a59f16775f91a36ab3662b2/src/main.js#L50)
+[some logic](https://github.com/ehmicky/error-custom-class/blob/4ac5e53dde8a89411a59f16775f91a36ab3662b2/src/main.js#L50)
 to fix this.
 
 # Related projects
 
 - [`modern-errors`](https://github.com/ehmicky/modern-errors): Handle errors
   like it's 2022 🔮
-- [`create-error-types`](https://github.com/ehmicky/create-error-types): Create
+- [`create-error-custom-classs`](https://github.com/ehmicky/create-error-custom-classs): Create
   multiple error classes
 - [`error-serializer`](https://github.com/ehmicky/error-serializer): Convert
   errors to/from plain objects
@@ -174,6 +174,6 @@ If you would like to help us fix a bug or add a new feature, please check our
 <!-- ALL-CONTRIBUTORS-LIST:START -->
 <!-- prettier-ignore -->
 <!--
-<table><tr><td align="center"><a href="https://twitter.com/ehmicky"><img src="https://avatars2.githubusercontent.com/u/8136211?v=4" width="100px;" alt="ehmicky"/><br /><sub><b>ehmicky</b></sub></a><br /><a href="https://github.com/ehmicky/error-type/commits?author=ehmicky" title="Code">💻</a> <a href="#design-ehmicky" title="Design">🎨</a> <a href="#ideas-ehmicky" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/ehmicky/error-type/commits?author=ehmicky" title="Documentation">📖</a></td></tr></table>
+<table><tr><td align="center"><a href="https://twitter.com/ehmicky"><img src="https://avatars2.githubusercontent.com/u/8136211?v=4" width="100px;" alt="ehmicky"/><br /><sub><b>ehmicky</b></sub></a><br /><a href="https://github.com/ehmicky/error-custom-class/commits?author=ehmicky" title="Code">💻</a> <a href="#design-ehmicky" title="Design">🎨</a> <a href="#ideas-ehmicky" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/ehmicky/error-custom-class/commits?author=ehmicky" title="Documentation">📖</a></td></tr></table>
  -->
 <!-- ALL-CONTRIBUTORS-LIST:END -->

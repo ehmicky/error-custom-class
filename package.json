@@ -1,5 +1,5 @@
 {
-  "name": "error-type",
+  "name": "error-custom-class",
   "version": "3.0.0",
   "type": "module",
   "exports": "./build/src/main.js",
@@ -35,10 +35,10 @@
     "error-classes"
   ],
   "license": "Apache-2.0",
-  "homepage": "https://www.github.com/ehmicky/error-type",
-  "repository": "ehmicky/error-type",
+  "homepage": "https://www.github.com/ehmicky/error-custom-class",
+  "repository": "ehmicky/error-custom-class",
   "bugs": {
-    "url": "https://github.com/ehmicky/error-type/issues"
+    "url": "https://github.com/ehmicky/error-custom-class/issues"
   },
   "author": "ehmicky <ehmicky@gmail.com> (https://github.com/ehmicky)",
   "directories": {
