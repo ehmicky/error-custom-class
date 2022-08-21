@@ -2,12 +2,7 @@ import test from 'ava'
 import errorType from 'error-type'
 import { each } from 'test-each'
 
-const onCreate = function (error, { props, ...params }) {
-  error.props = props
-  error.params = params
-}
-
-const TestError = errorType('TestError', onCreate)
+import { TestError, PARAMS_OR_PROPS } from '../helpers/params.js'
 
 test('Sets params.props by default', (t) => {
   const DefaultTestError = errorType('TestError')
@@ -21,11 +16,6 @@ test('Can customize onCreate', (t) => {
   t.true(error.params.one)
   t.true(error.props.two)
 })
-
-const PARAMS_OR_PROPS = [
-  { key: 'params', getParams: (params) => params },
-  { key: 'props', getParams: (props) => ({ props }) },
-]
 
 each(PARAMS_OR_PROPS, ({ title }, { key, getParams }) => {
   test(`Assign a default object | ${title}`, (t) => {
