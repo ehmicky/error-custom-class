@@ -6,7 +6,9 @@ export type ErrorName = `${string}Error`
 /**
  * Parameters passed to `new CustomErrorType('message', params)`
  */
-export type ErrorParams = { [paramProperty: string | symbol]: unknown }
+export interface ErrorParams {
+  [param: string | symbol]: unknown
+}
 
 /**
  * Called on `new CustomErrorType('message', params)`
@@ -32,8 +34,8 @@ export declare class CustomError<
  *
  * `onCreate(error, params)` is optional and is called on
  * `new CustomErrorType('message', params)`.
- * By default, it sets any `params` as `error` properties. However, you can
- * override it with any custom logic to validate, normalize `params`, etc.
+ * By default, it sets any `params.props` as `error` properties. However, you
+ * can override it with any custom logic to validate, normalize `params`, etc.
  *
  * @example
  * ```js
@@ -50,8 +52,7 @@ export declare class CustomError<
  *   console.log(error instanceof UserError) // true
  * }
  *
- * // Error properties can be set using the second argument
- * const userError = new UserError('message', { userId: 56 })
+ * const userError = new UserError('message', { props: { userId: 56 } })
  * console.log(userError.userId) // 56
  *
  * // `error.cause` can be used even in older Node.js or browsers
@@ -62,10 +63,10 @@ export declare class CustomError<
  * }
  *
  * // Custom initialization logic
- * const DatabaseError = errorType('DatabaseError', (error, params) => {
- *   error.dbId = params.databaseId
+ * const DatabaseError = errorType('DatabaseError', (error, { props }) => {
+ *   error.dbId = props.databaseId
  * })
- * const databaseError = new DatabaseError('message', { databaseId: 2 })
+ * const databaseError = new DatabaseError('message', { props: { databaseId: 2 } })
  * console.log(databaseError.dbId) // 2
  * console.log(databaseError.databaseId) // undefined
  * ```

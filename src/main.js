@@ -1,45 +1,30 @@
-import { defaultOnCreate, getOnCreateParams } from './create.js'
+import { isObject, normalizeParams, defaultOnCreate } from './create.js'
 import { setErrorName } from './name.js'
 import { setNonEnumProp } from './set.js'
 
 // Create an error type with a specific `name`.
-// The constructor allows setting either `error.cause` or any properties:
-// `new CustomErrorType('message', { anyProp: true })`
 // We do not call `Error.captureStackTrace(this, CustomErrorType)` because:
 //  - It is V8 specific
 //  - And on V8 (unlike in some browsers like Firefox), `Error.stack`
 //    automatically omits the stack lines from custom error constructors
 //  - Also, this would force child types to also use `Error.captureStackTrace()`
+/* eslint-disable fp/no-this */
 export default function errorType(name, onCreate = defaultOnCreate) {
   const CustomErrorType = class extends Error {
-    constructor(message, params = {}) {
-      validateParams(params)
+    constructor(message, params) {
       super(message, getErrorParams(params))
-      // eslint-disable-next-line fp/no-this
       fixPrototype(this, new.target.prototype)
-      // eslint-disable-next-line fp/no-this
       fixCause(this, params)
-      // eslint-disable-next-line fp/no-this
-      onCreate(this, getOnCreateParams(this, params))
+      onCreate(this, normalizeParams(this, params))
     }
   }
   setErrorName(CustomErrorType, name)
   return CustomErrorType
 }
+/* eslint-enable fp/no-this */
 
-// Due to `error.cause`, the second argument should always be a plain object
-// We enforce no third argument since this is cleaner.
-const validateParams = function (params) {
-  if (typeof params !== 'object' || params === null) {
-    throw new TypeError(
-      `Error's second argument must be a plain object: ${params}`,
-    )
-  }
-}
-
-// Passing `{ cause: undefined }` creates `error.cause`, unlike passing `{}`
 const getErrorParams = function (params) {
-  return 'cause' in params ? { cause: params.cause } : {}
+  return hasCause(params) ? { cause: params.cause } : {}
 }
 
 // If the global `Error` type was monkey-patched, it is likely to return an
@@ -67,10 +52,12 @@ const fixPrototype = function (context, newTargetProto) {
 
 // Polyfills `error.cause` for Node <16.9.0 and old browsers
 const fixCause = function (error, params) {
-  if (
-    'cause' in params &&
-    !('cause' in error && params.cause === error.cause)
-  ) {
+  if (hasCause(params) && !('cause' in error && params.cause === error.cause)) {
     setNonEnumProp(error, 'cause', params.cause)
   }
+}
+
+// Passing `{ cause: undefined }` creates `error.cause`, unlike passing `{}`
+const hasCause = function (params) {
+  return isObject(params) && 'cause' in params
 }

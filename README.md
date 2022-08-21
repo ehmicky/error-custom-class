@@ -10,8 +10,8 @@ Create custom error types.
 
 - [Simple API](#api): `errorType('errorName')`
 - Follows [best practices](#best-practices)
-- Error properties can be [set on initialization](#custom-initialization-logic):
-  `new CustomError('message', { exampleProp: true })`
+- Error properties can be [set on initialization](#error-properties):
+  `new CustomError('message', { props: { exampleProp: true } })`
 - Polyfills
   [`error.cause`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause)
   on
@@ -40,8 +40,7 @@ try {
 ## Error properties
 
 ```js
-// Error properties can be set using the second argument
-const userError = new UserError('message', { userId: 56 })
+const userError = new UserError('message', { props: { userId: 56 } })
 console.log(userError.userId) // 56
 ```
 
@@ -61,10 +60,10 @@ try {
 <!-- eslint-disable promise/prefer-await-to-callbacks -->
 
 ```js
-const DatabaseError = errorType('DatabaseError', (error, params) => {
-  error.dbId = params.databaseId
+const DatabaseError = errorType('DatabaseError', (error, { props }) => {
+  error.dbId = props.databaseId
 })
-const databaseError = new DatabaseError('message', { databaseId: 2 })
+const databaseError = new DatabaseError('message', { props: { databaseId: 2 } })
 console.log(databaseError.dbId) // 2
 console.log(databaseError.databaseId) // undefined
 ```
@@ -92,60 +91,8 @@ _Return value_: `CustomErrorType`
 `onCreate(error, params)` is optional and is called on
 `new CustomErrorType('message', params)`.
 
-By default, it sets any `params` as `error` properties. However, you can
+By default, it sets any `params.props` as `error` properties. However, you can
 override it with any custom logic to validate, normalize `params`, etc.
-
-### Error type properties
-
-Some error properties are the same for all instances of a given error type. In
-other words, those are properties of the error type, not of specific instances.
-
-Those can be set by using a separate object with each error type's properties.
-They can be assigned using [`onCreate()`](#custom-initialization-logic):
-
-<!-- eslint-disable fp/no-mutating-assign -->
-
-```js
-const ERROR_PROPS = {
-  UserError: { isBug: false },
-  DatabaseError: { isBug: false },
-  CoreError: { isBug: true },
-}
-
-const onCreate = function (error, params) {
-  Object.assign(error, params, ERROR_PROPS[error.name])
-}
-
-const UserError = errorType('UserError', onCreate)
-const DatabaseError = errorType('DatabaseError', onCreate)
-const CoreError = errorType('CoreError', onCreate)
-```
-
-Alternatively, the logic that catches/handles the error can retrieve those error
-properties instead:
-
-```js
-const UserError = errorType('UserError')
-const DatabaseError = errorType('DatabaseError')
-const CoreError = errorType('CoreError')
-```
-
-```js
-const ERROR_PROPS = {
-  UserError: { isBug: false },
-  DatabaseError: { isBug: false },
-  CoreError: { isBug: true },
-}
-
-try {
-  doSomething()
-} catch (error) {
-  const isBug =
-    error instanceof Error && error.name in ERROR_PROPS
-      ? ERROR_PROPS[error.name].isBug
-      : true
-}
-```
 
 # Best practices
 

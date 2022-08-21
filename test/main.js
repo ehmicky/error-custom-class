@@ -1,6 +1,5 @@
 import test from 'ava'
 import errorType from 'error-type'
-import { each } from 'test-each'
 
 const { propertyIsEnumerable: isEnum } = Object.prototype
 
@@ -11,14 +10,6 @@ test('Has right error type', (t) => {
   t.not(Object.getPrototypeOf(testError), Error.prototype)
   t.true(testError instanceof TestError)
   t.true(testError instanceof Error)
-})
-
-// eslint-disable-next-line unicorn/no-null
-each([null, 'test', () => {}], ({ title }, params) => {
-  test(`Validate against invalid instance params | ${title}`, (t) => {
-    // eslint-disable-next-line max-nested-callbacks
-    t.throws(() => new TestError('test', params))
-  })
 })
 
 test('Sets error.message', (t) => {

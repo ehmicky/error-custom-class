@@ -41,8 +41,8 @@ expectError(new TestError(true))
 
 new TestError('message', {})
 new TestError('message', { cause: true })
-new TestError('message', { anyProp: true })
-new TestError('message', { [Symbol('test')]: true })
+new TestError('message', { props: { anyProp: true } })
+new TestError('message', { props: { [Symbol('test')]: true } })
 expectError(new TestError('message', true))
 const TestErrorTwo = errorType(
   'TestError',

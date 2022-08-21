@@ -2,65 +2,78 @@ import test from 'ava'
 import errorType from 'error-type'
 import { each } from 'test-each'
 
-const TestError = errorType('TestError')
+const onCreate = function (error, { props, ...params }) {
+  error.props = props
+  error.params = params
+}
 
-test('Sets instance params by default', (t) => {
-  const error = new TestError('test', { one: true })
+const TestError = errorType('TestError', onCreate)
+
+test('Sets params.props by default', (t) => {
+  const DefaultTestError = errorType('TestError')
+  const error = new DefaultTestError('test', { props: { one: true } })
   t.true(error.one)
 })
 
 test('Can customize onCreate', (t) => {
-  const CustomErrorType = errorType('TestError', setOneProp)
-  const error = new CustomErrorType('test', { one: true })
-  t.false('one' in error)
-  t.true(error.two)
+  const error = new TestError('test', { one: true, props: { two: true } })
+  t.false('two' in error)
+  t.true(error.params.one)
+  t.true(error.props.two)
 })
 
-const setOneProp = function (error, { one }) {
-  error.two = one
-}
+const PARAMS_OR_PROPS = [
+  { key: 'params', getParams: (params) => params },
+  { key: 'props', getParams: (props) => ({ props }) },
+]
 
-test('Does not ignore enumerable params', (t) => {
-  // eslint-disable-next-line fp/no-mutating-methods
-  const params = Object.defineProperty({}, 'one', {
-    value: true,
-    enumerable: true,
+each(PARAMS_OR_PROPS, ({ title }, { key, getParams }) => {
+  test(`Assign a default object | ${title}`, (t) => {
+    t.deepEqual(new TestError('test')[key], {})
   })
-  t.true(new TestError('test', params).one)
-})
 
-test('Ignore non-enumerable params', (t) => {
-  // eslint-disable-next-line fp/no-mutating-methods
-  const params = Object.defineProperty({}, 'one', {
-    value: true,
-    enumerable: false,
+  test(`Does not ignore enumerable params | ${title}`, (t) => {
+    // eslint-disable-next-line fp/no-mutating-methods
+    const props = Object.defineProperty({}, 'one', {
+      value: true,
+      enumerable: true,
+    })
+    t.true(new TestError('test', getParams(props))[key].one)
   })
-  t.false('one' in new TestError('test', params))
-})
 
-test('Ignore inherited params', (t) => {
-  const params = { __proto__: { one: true } }
-  t.true(params.one)
-  t.false('one' in new TestError('test', params))
-})
-
-test('Can pass symbols as instance params', (t) => {
-  const symbol = Symbol('one')
-  const error = new TestError('test', { [symbol]: true })
-  t.true(error[symbol])
-})
-
-test('Ignore non-enumerable symbol params', (t) => {
-  const symbol = Symbol('one')
-  // eslint-disable-next-line fp/no-mutating-methods
-  const params = Object.defineProperty({}, symbol, {
-    value: true,
-    enumerable: false,
+  test(`Ignore non-enumerable params | ${title}`, (t) => {
+    // eslint-disable-next-line fp/no-mutating-methods
+    const props = Object.defineProperty({}, 'one', {
+      value: true,
+      enumerable: false,
+    })
+    t.false('one' in new TestError('test', getParams(props))[key])
   })
-  t.false(symbol in new TestError('test', params))
+
+  test(`Ignore inherited params | ${title}`, (t) => {
+    const props = { __proto__: { one: true } }
+    t.true(props.one)
+    t.false('one' in new TestError('test', getParams(props))[key])
+  })
+
+  test(`Can pass symbols as params | ${title}`, (t) => {
+    const symbol = Symbol('one')
+    t.true(new TestError('test', getParams({ [symbol]: true }))[key][symbol])
+  })
+
+  test(`Ignore non-enumerable symbol params | ${title}`, (t) => {
+    const symbol = Symbol('one')
+    // eslint-disable-next-line fp/no-mutating-methods
+    const props = Object.defineProperty({}, symbol, {
+      value: true,
+      enumerable: false,
+    })
+    t.false(symbol in new TestError('test', getParams(props))[key])
+  })
 })
 
 each(
+  PARAMS_OR_PROPS,
   [
     'name',
     'message',
@@ -76,10 +89,33 @@ each(
     'propertyIsEnumerable',
     'valueOf',
   ],
-  ({ title }, propName) => {
-    test(`Ignore some instance params | ${title}`, (t) => {
-      const error = new TestError('test', { [propName]: true })
-      t.not(error[propName], true)
+  ({ title }, { key, getParams }, propName) => {
+    test(`Ignore some params | ${title}`, (t) => {
+      t.not(
+        new TestError('test', getParams({ [propName]: true }))[key][propName],
+        true,
+      )
+    })
+  },
+)
+
+each(
+  PARAMS_OR_PROPS,
+  [
+    // eslint-disable-next-line unicorn/no-null
+    null,
+    'test',
+    () => {},
+    {
+      get unsafe() {
+        throw new Error('unsafe')
+      },
+    },
+  ],
+  ({ title }, { getParams }, value) => {
+    test(`Validate against invalid params | ${title}`, (t) => {
+      // eslint-disable-next-line max-nested-callbacks
+      t.throws(() => new TestError('test', getParams(value)))
     })
   },
 )

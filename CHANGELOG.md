@@ -1,3 +1,11 @@
+# 3.0.0
+
+## Breaking changes
+
+- Error properties are now set by default using
+  `new ErrorType('message', { props: { ... } })` instead of
+  `new ErrorType('message', { ... })`
+
 # 2.0.1
 
 ## Bug fixes

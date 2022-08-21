@@ -4,9 +4,9 @@ import errorType from 'error-type'
 import { each } from 'test-each'
 
 const TestError = errorType('TestError')
-const testError = new TestError('test', { one: true })
+const testError = new TestError('test', { props: { one: true } })
 const ChildError = class extends TestError {}
-const childError = new ChildError('test', { one: true })
+const childError = new ChildError('test', { props: { one: true } })
 
 each(
   [
