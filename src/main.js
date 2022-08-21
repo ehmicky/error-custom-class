@@ -1,5 +1,5 @@
-import { isObject, normalizeParams, defaultOnCreate } from './create.js'
 import { setErrorName } from './name.js'
+import { isObject, normalizeParams, defaultOnCreate } from './params.js'
 import { setNonEnumProp } from './set.js'
 
 // Create an error type with a specific `name`.
