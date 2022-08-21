@@ -107,6 +107,7 @@ each(
     'test',
     () => {},
     {
+      // eslint-disable-next-line fp/no-get-set
       get unsafe() {
         throw new Error('unsafe')
       },
