@@ -14,7 +14,7 @@ test('Has right error type', (t) => {
 })
 
 // eslint-disable-next-line unicorn/no-null
-each([null, 'test'], ({ title }, params) => {
+each([null, 'test', () => {}], ({ title }, params) => {
   test(`Validate against invalid instance params | ${title}`, (t) => {
     // eslint-disable-next-line max-nested-callbacks
     t.throws(() => new TestError('test', params))
