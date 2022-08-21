@@ -1,21 +1,7 @@
 import test from 'ava'
-import errorType from 'error-type'
 import { each } from 'test-each'
 
 import { TestError, PARAMS_OR_PROPS } from '../helpers/params.js'
-
-test('Sets params.props by default', (t) => {
-  const DefaultTestError = errorType('TestError')
-  const error = new DefaultTestError('test', { props: { one: true } })
-  t.true(error.one)
-})
-
-test('Can customize onCreate', (t) => {
-  const error = new TestError('test', { one: true, props: { two: true } })
-  t.false('two' in error)
-  t.true(error.params.one)
-  t.true(error.props.two)
-})
 
 each(PARAMS_OR_PROPS, ({ title }, { key, getParams }) => {
   test(`Assign a default object | ${title}`, (t) => {
@@ -85,28 +71,6 @@ each(
         new TestError('test', getParams({ [propName]: true }))[key][propName],
         true,
       )
-    })
-  },
-)
-
-each(
-  PARAMS_OR_PROPS,
-  [
-    // eslint-disable-next-line unicorn/no-null
-    null,
-    'test',
-    () => {},
-    {
-      // eslint-disable-next-line fp/no-get-set
-      get unsafe() {
-        throw new Error('unsafe')
-      },
-    },
-  ],
-  ({ title }, { getParams }, value) => {
-    test(`Validate against invalid params | ${title}`, (t) => {
-      // eslint-disable-next-line max-nested-callbacks
-      t.throws(() => new TestError('test', getParams(value)))
     })
   },
 )
