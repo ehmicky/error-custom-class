@@ -135,8 +135,8 @@ to fix this.
 
 - [`modern-errors`](https://github.com/ehmicky/modern-errors): Handle errors
   like it's 2022 🔮
-- [`create-error-custom-classs`](https://github.com/ehmicky/create-error-custom-classs): Create
-  multiple error classes
+- [`create-error-custom-classs`](https://github.com/ehmicky/create-error-custom-classs):
+  Create multiple error classes
 - [`error-serializer`](https://github.com/ehmicky/error-serializer): Convert
   errors to/from plain objects
 - [`normalize-exception`](https://github.com/ehmicky/normalize-exception):
