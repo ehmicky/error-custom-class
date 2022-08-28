@@ -57,3 +57,8 @@ expectType<InstanceType<typeof TestError>>(testError)
 expectType<typeof testError>(testError)
 expectAssignable<Error>(testError)
 expectType<'TestError'>(testError.name)
+
+errorCustomClass('TestError', () => {}, Error)
+errorCustomClass('TestError', () => {}, TypeError)
+errorCustomClass('TestError', () => {}, TestError)
+expectError(errorCustomClass('TestError', () => {}, true))

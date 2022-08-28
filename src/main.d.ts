@@ -76,4 +76,5 @@ export default function errorCustomClass<
 >(
   errorName: ErrorNameArg,
   onCreate?: OnCreate<ErrorNameArg, ErrorParamsArg>,
+  ParentClass?: Function,
 ): typeof CustomError<ErrorNameArg, ErrorParamsArg>
