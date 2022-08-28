@@ -1,14 +1,6 @@
-/**
- * Error class name
- */
-export type ErrorName = `${string}Error`
+import type { ErrorName, ErrorParams } from 'error-class-utils'
 
-/**
- * Parameters passed to `new CustomError('message', params)`
- */
-export interface ErrorParams {
-  [param: string | symbol]: unknown
-}
+export type { ErrorName, ErrorParams }
 
 /**
  * Custom error class
