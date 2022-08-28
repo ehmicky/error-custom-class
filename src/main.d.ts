@@ -21,6 +21,24 @@ export type OnCreate<
   params: ErrorParamsArg,
 ) => void
 
+/**
+ * `error-custom-class` options
+ */
+export interface Options<
+  ErrorNameArg extends ErrorName = ErrorName,
+  ErrorParamsArg extends ErrorParams = ErrorParams,
+> {
+  /**
+   *
+   */
+  readonly onCreate?: OnCreate<ErrorNameArg, ErrorParamsArg>
+
+  /**
+   *
+   */
+  readonly ParentClass?: Function
+}
+
 export declare class CustomError<
   ErrorNameArg extends ErrorName = ErrorName,
   ErrorParamsArg extends ErrorParams = ErrorParams,
@@ -75,6 +93,5 @@ export default function errorCustomClass<
   ErrorParamsArg extends ErrorParams = ErrorParams,
 >(
   errorName: ErrorNameArg,
-  onCreate?: OnCreate<ErrorNameArg, ErrorParamsArg>,
-  ParentClass?: Function,
+  options?: Options<ErrorNameArg, ErrorParamsArg>,
 ): typeof CustomError<ErrorNameArg, ErrorParamsArg>
