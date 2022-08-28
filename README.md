@@ -52,6 +52,10 @@ not `require()`.
 
 # API
 
+The API is designed for simplicity. For more customization,
+[`error-class-utils`](https://github.com/ehmicky/error-class-utils) should be
+used instead.
+
 ## errorCustomClass(errorName)
 
 `errorName` `string`\
