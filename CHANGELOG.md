@@ -1,3 +1,11 @@
+# 5.0.0
+
+## Breaking changes
+
+- The [`onCreate`](README.md#oncreate) and
+  [`ParentClass`](README.md#parentclass) positional parameters are now named
+  parameters inside an [options object](README.md#options).
+
 # 4.1.0
 
 ## Feature
