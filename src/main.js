@@ -37,15 +37,14 @@ export default function errorCustomClass(name, opts) {
 // We fix this by detecting such situation and re-setting the prototype.
 // We use `new.target` so that this works even if `CustomErrorClass` is
 // subclassed itself.
-const fixPrototype = function (context, newTargetProto) {
-  if (Object.getPrototypeOf(context) !== newTargetProto) {
+const fixPrototype = function (error, newTargetProto) {
+  if (Object.getPrototypeOf(error) !== newTargetProto) {
     // eslint-disable-next-line fp/no-mutating-methods
-    Object.setPrototypeOf(context, newTargetProto)
+    Object.setPrototypeOf(error, newTargetProto)
   }
 
-  if (context.constructor !== newTargetProto.constructor) {
-    // eslint-disable-next-line fp/no-mutation, no-param-reassign
-    context.constructor = newTargetProto.constructor
+  if (error.constructor !== newTargetProto.constructor) {
+    error.constructor = newTargetProto.constructor
   }
 }
 
