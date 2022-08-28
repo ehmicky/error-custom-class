@@ -16,12 +16,10 @@ Create custom error classes.
   [`error.cause`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause)
   on
   [older Node.js and browsers](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause#browser_compatibility)
-- Optional [parent class](#parent-class) or
-  [custom initialization logic](#custom-initialization-logic)
+- Optional [parent class](#parentclass) or
+  [custom initialization logic](#oncreate)
 
-# Examples
-
-## Custom error classes
+# Example
 
 ```js
 import errorCustomClass from 'error-custom-class'
@@ -35,49 +33,6 @@ try {
   console.log(error.name) // 'UserError'
   console.log(error instanceof UserError) // true
 }
-```
-
-## Error properties
-
-```js
-const userError = new UserError('message', { props: { userId: 56 } })
-console.log(userError.userId) // 56
-```
-
-## Error cause
-
-```js
-// `error.cause` can be used even in older Node.js or browsers
-try {
-  doSomething()
-} catch (cause) {
-  throw new UserError('message', { cause })
-}
-```
-
-## Parent class
-
-<!-- eslint-disable promise/prefer-await-to-callbacks -->
-
-```js
-const ParentError = errorCustomClass('ParentError')
-const ChildError = errorCustomClass('ChildError', { ParentClass: ParentError })
-const childError = new ChildError('message')
-console.log(childError instanceof ChildError) // true
-console.log(childError instanceof ParentError) // true
-```
-
-## Custom initialization logic
-
-```js
-const DatabaseError = errorCustomClass('DatabaseError', {
-  onCreate(error, { props }) {
-    error.dbId = props.databaseId
-  },
-})
-const databaseError = new DatabaseError('message', { props: { databaseId: 2 } })
-console.log(databaseError.dbId) // 2
-console.log(databaseError.databaseId) // undefined
 ```
 
 # Install
@@ -108,8 +63,25 @@ _Type_: `(error, params) => void`
 
 Called on `new CustomError('message', params)`.
 
-By default, it sets any `params.props` as `error` properties. However, you can
-override it with any custom logic to validate, normalize `params`, etc.
+```js
+const DatabaseError = errorCustomClass('DatabaseError', {
+  onCreate(error, { props }) {
+    error.dbId = props.databaseId
+  },
+})
+const databaseError = new DatabaseError('message', { props: { databaseId: 2 } })
+console.log(databaseError.dbId) // 2
+console.log(databaseError.databaseId) // undefined
+```
+
+##### Error properties
+
+By default, `onCreate()` sets any `params.props` as `error` properties.
+
+```js
+const userError = new UserError('message', { props: { userId: 56 } })
+console.log(userError.userId) // 56
+```
 
 #### ParentClass
 
@@ -117,6 +89,14 @@ _Type_: `typeof Error`\
 _Default_: `Error`
 
 Parent error class.
+
+```js
+const ParentError = errorCustomClass('ParentError')
+const ChildError = errorCustomClass('ChildError', { ParentClass: ParentError })
+const childError = new ChildError('message')
+console.log(childError instanceof ChildError) // true
+console.log(childError instanceof ParentError) // true
+```
 
 # Best practices
 

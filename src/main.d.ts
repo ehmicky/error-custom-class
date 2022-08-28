@@ -29,12 +29,38 @@ export interface Options<
   ErrorParamsArg extends ErrorParams = ErrorParams,
 > {
   /**
+   * Called on `new CustomError('message', params)`.
    *
+   * By default, it sets any `params.props` as `error` properties. However, you
+   * can override it with any custom logic to validate, normalize `params`, etc.
+   *
+   * @example
+   * ```js
+   * const DatabaseError = errorCustomClass('DatabaseError', {
+   *   onCreate(error, { props }) {
+   *     error.dbId = props.databaseId
+   *   },
+   * })
+   * const databaseError = new DatabaseError('message', { props: { databaseId: 2 } })
+   * console.log(databaseError.dbId) // 2
+   * console.log(databaseError.databaseId) // undefined
+   * ```
    */
   readonly onCreate?: OnCreate<ErrorNameArg, ErrorParamsArg>
 
   /**
+   * Parent error class.
+   *
    * @default Error
+   *
+   * @example
+   * ```js
+   * const ParentError = errorCustomClass('ParentError')
+   * const ChildError = errorCustomClass('ChildError', { ParentClass: ParentError })
+   * const childError = new ChildError('message')
+   * console.log(childError instanceof ChildError) // true
+   * console.log(childError instanceof ParentError) // true
+   * ```
    */
   readonly ParentClass?: Function
 }
