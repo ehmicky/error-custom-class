@@ -65,6 +65,9 @@ export interface Options<
   readonly ParentClass?: Function
 }
 
+/**
+ * Custom error class
+ */
 export declare class CustomError<
   ErrorNameArg extends ErrorName = ErrorName,
   ErrorParamsArg extends ErrorParams = ErrorParams,
