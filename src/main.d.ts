@@ -89,24 +89,6 @@ export declare class CustomError<
  *   console.log(error.name) // 'UserError'
  *   console.log(error instanceof UserError) // true
  * }
- *
- * const userError = new UserError('message', { props: { userId: 56 } })
- * console.log(userError.userId) // 56
- *
- * // `error.cause` can be used even in older Node.js or browsers
- * try {
- *   doSomething()
- * } catch (cause) {
- *   throw new UserError('message', { cause })
- * }
- *
- * // Custom initialization logic
- * const DatabaseError = errorCustomClass('DatabaseError', (error, { props }) => {
- *   error.dbId = props.databaseId
- * })
- * const databaseError = new DatabaseError('message', { props: { databaseId: 2 } })
- * console.log(databaseError.dbId) // 2
- * console.log(databaseError.databaseId) // undefined
  * ```
  */
 export default function errorCustomClass<
