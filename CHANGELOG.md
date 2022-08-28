@@ -1,3 +1,9 @@
+# 6.1.0
+
+## Features
+
+- Error `props` are now deep merged
+
 # 6.0.0
 
 ## Breaking changes
