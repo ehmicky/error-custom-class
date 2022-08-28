@@ -15,7 +15,7 @@ Create custom error classes.
   on
   [older Node.js and browsers](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause#browser_compatibility)
 - Prevent
-  [prototype pollution](https://github.com/ehmicky/error-class-utils#sanitizepropertiesproperties)
+  [prototype pollution](https://github.com/ehmicky/set-error-props#prototype-pollution)
   when setting error properties
 - Properly
   [set `error.name`](https://github.com/ehmicky/error-class-utils#seterrornameerrorclass-name)
