@@ -16,7 +16,8 @@ Create custom error classes.
   [`error.cause`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause)
   on
   [older Node.js and browsers](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause#browser_compatibility)
-- Optional [custom initialization logic](#custom-initialization-logic)
+- Optional custom [parent class](#custom-parent-class) or
+  [initialization logic](#custom-initialization-logic)
 
 # Examples
 
@@ -54,6 +55,18 @@ try {
 }
 ```
 
+## Custom parent class
+
+<!-- eslint-disable promise/prefer-await-to-callbacks -->
+
+```js
+const ParentError = errorCustomClass('ParentError')
+const ChildError = errorCustomClass('ChildError', onCreate, ParentError)
+const childError = new ChildError('message')
+console.log(childError instanceof ChildError) // true
+console.log(childError instanceof ParentError) // true
+```
+
 ## Custom initialization logic
 
 <!-- eslint-disable promise/prefer-await-to-callbacks -->
@@ -79,10 +92,11 @@ not `require()`.
 
 # API
 
-## errorCustomClass(errorName, onCreate?)
+## errorCustomClass(errorName, onCreate?, ParentClass?)
 
 `errorName` `string`\
 `onCreate` `(error, params) => void`\
+`ParentClass` `typeof Error`\
 _Return value_: `CustomError`
 
 ### Custom initialization logic
