@@ -50,8 +50,8 @@ new TestError('message', { props: { [Symbol('test')]: true } })
 expectError(new TestError('message', true))
 const TestErrorTwo = errorCustomClass('TestError', {
   onCreate(_: CustomError, __: { test?: boolean }) {},
-})
-// expectError(new TestErrorTwo('message', { other: true }))
+} as const)
+expectError(new TestErrorTwo('message', { other: true }))
 expectAssignable<ErrorParams>({ anyProp: true })
 expectNotAssignable<ErrorParams>(true)
 
