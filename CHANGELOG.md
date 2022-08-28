@@ -1,3 +1,9 @@
+# 4.1.0
+
+## Feature
+
+- Allow specifying the [parent error class](README.md#parent-class)
+
 # 4.0.0
 
 ## Breaking changes

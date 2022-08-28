@@ -16,8 +16,8 @@ Create custom error classes.
   [`error.cause`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause)
   on
   [older Node.js and browsers](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause#browser_compatibility)
-- Optional custom [parent class](#custom-parent-class) or
-  [initialization logic](#custom-initialization-logic)
+- Optional [parent class](#parent-class) or
+  [custom initialization logic](#custom-initialization-logic)
 
 # Examples
 
@@ -55,7 +55,7 @@ try {
 }
 ```
 
-## Custom parent class
+## Parent class
 
 <!-- eslint-disable promise/prefer-await-to-callbacks -->
 
