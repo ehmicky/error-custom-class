@@ -2,7 +2,7 @@
 
 ## Breaking changes
 
-- The `onCreate` and `ParentClass` have been removed. Please use
+- The `onCreate` and `ParentClass` options have been removed. Please use
   [`error-class-utils`](https://github.com/ehmicky/error-class-utils) instead.
 
 # 5.0.0
