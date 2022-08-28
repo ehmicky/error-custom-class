@@ -53,6 +53,8 @@ not `require()`.
 `options` [`Options?`]()\
 _Return value_: `CustomError`
 
+Creates a custom error class.
+
 ### Options
 
 Options are an optional object with the following members.
