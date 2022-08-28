@@ -10,14 +10,12 @@ Create custom error classes.
 
 - [Simple API](#api): `errorCustomClass('errorName')`
 - Follows [best practices](#best-practices)
-- Error properties can be [set on initialization](#error-properties):
+- Error properties are [set on initialization](#error-properties):
   `new CustomError('message', { props: { example: true } })`
 - Polyfills
   [`error.cause`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause)
   on
   [older Node.js and browsers](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause#browser_compatibility)
-- Optional [parent class](#parentclass) or
-  [custom initialization logic](#oncreate)
 
 # Example
 
@@ -55,49 +53,13 @@ _Return value_: `CustomError`
 
 Creates a custom error class.
 
-### Options
+### Error properties
 
-Options are an optional object with the following members.
-
-#### onCreate
-
-_Type_: `(error, params) => void`
-
-Called on `new CustomError('message', params)`.
-
-```js
-const DatabaseError = errorCustomClass('DatabaseError', {
-  onCreate(error, { props }) {
-    error.dbId = props.databaseId
-  },
-})
-const databaseError = new DatabaseError('message', { props: { databaseId: 2 } })
-console.log(databaseError.dbId) // 2
-console.log(databaseError.databaseId) // undefined
-```
-
-##### Error properties
-
-By default, `onCreate()` sets any `params.props` as `error` properties.
+Any `props` parameters are set as `error` properties.
 
 ```js
 const userError = new UserError('message', { props: { userId: 56 } })
 console.log(userError.userId) // 56
-```
-
-#### ParentClass
-
-_Type_: `typeof Error`\
-_Default_: `Error`
-
-Parent error class.
-
-```js
-const ParentError = errorCustomClass('ParentError')
-const ChildError = errorCustomClass('ChildError', { ParentClass: ParentError })
-const childError = new ChildError('message')
-console.log(childError instanceof ChildError) // true
-console.log(childError instanceof ParentError) // true
 ```
 
 # Best practices
