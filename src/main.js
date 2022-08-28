@@ -15,7 +15,7 @@ export default function errorCustomClass(name, opts) {
   const { onCreate, ParentClass } = normalizeOpts(opts)
   const CustomErrorClass = class extends ParentClass {
     constructor(message, params) {
-      super(message, getErrorParams(params))
+      super(message, params)
       fixPrototype(this, new.target.prototype)
       fixCause(this, params)
       onCreate(this, normalizeParams(this, params))
@@ -25,10 +25,6 @@ export default function errorCustomClass(name, opts) {
   return CustomErrorClass
 }
 /* eslint-enable fp/no-this */
-
-const getErrorParams = function (params) {
-  return hasCause(params) ? { cause: params.cause } : {}
-}
 
 // If the global `Error` class was monkey-patched, it is likely to return an
 // `Error` instance.
