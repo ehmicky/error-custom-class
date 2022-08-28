@@ -1,5 +1,6 @@
 import { setErrorName } from './name.js'
-import { isObject, normalizeParams, defaultOnCreate } from './params.js'
+import { normalizeOpts } from './opts.js'
+import { isObject, normalizeParams } from './params.js'
 import { setNonEnumProp } from './set.js'
 
 // Create an error class with a specific `name`.
@@ -10,11 +11,8 @@ import { setNonEnumProp } from './set.js'
 //  - Also, this would force child classes to also use
 //    `Error.captureStackTrace()`
 /* eslint-disable fp/no-this */
-export default function errorCustomClass(
-  name,
-  onCreate = defaultOnCreate,
-  ParentClass = Error,
-) {
+export default function errorCustomClass(name, opts) {
+  const { onCreate, ParentClass } = normalizeOpts(opts)
   const CustomErrorClass = class extends ParentClass {
     constructor(message, params) {
       super(message, getErrorParams(params))

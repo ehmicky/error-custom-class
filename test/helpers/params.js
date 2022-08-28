@@ -12,4 +12,4 @@ const onCreate = function (error, { props, ...params }) {
 }
 
 // Error class to test `params` and `params.props`
-export const TestError = errorCustomClass('TestError', onCreate)
+export const TestError = errorCustomClass('TestError', { onCreate })

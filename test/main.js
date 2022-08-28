@@ -61,11 +61,9 @@ test('Does not set error.errors by default', (t) => {
   t.false('errors' in testError)
 })
 
-const noop = () => {}
-
 each([TypeError, TestError], ({ title }, ParentClass) => {
   test(`Can customize parent class | ${title}`, (t) => {
-    const ChildError = errorCustomClass('TestError', noop, ParentClass)
+    const ChildError = errorCustomClass('TestError', { ParentClass })
     const childError = new ChildError('test')
     t.true(childError instanceof ParentClass)
     t.true(childError instanceof ChildError)
@@ -73,18 +71,18 @@ each([TypeError, TestError], ({ title }, ParentClass) => {
 })
 
 test('Parent constructor is called first', (t) => {
-  // eslint-disable-next-line promise/prefer-await-to-callbacks
-  const ParentError = errorCustomClass('ParentError', (error) => {
-    error.prop = 'one'
+  const ParentError = errorCustomClass('ParentError', {
+    onCreate(error) {
+      error.prop = 'one'
+    },
   })
 
-  const ChildError = errorCustomClass(
-    'ChildError',
-    (error) => {
+  const ChildError = errorCustomClass('ChildError', {
+    onCreate(error) {
       error.prop += ' two'
     },
-    ParentError,
-  )
+    ParentClass: ParentError,
+  })
   const childError = new ChildError('test')
   t.is(childError.prop, 'one two')
 })
