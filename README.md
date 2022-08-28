@@ -8,8 +8,8 @@ Create custom error classes.
 
 # Features
 
-- [Simple API](#api): `errorCustomClass('errorName')`
-- Error properties are set on initialization
+- [Very simple API](#api)
+- Error properties are [set on initialization](#example)
 - Ponyfill
   [`error.cause`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause)
   on
