@@ -1,10 +1,14 @@
 import { inspect } from 'util'
 
 import test from 'ava'
-import errorCustomClass from 'error-custom-class'
 import { each } from 'test-each'
 
-const TestError = errorCustomClass('TestError')
+// eslint-disable-next-line no-restricted-imports
+import { setErrorName } from '../src/name.js'
+
+// eslint-disable-next-line fp/no-class
+class TestError extends Error {}
+setErrorName(TestError, 'TestError')
 const testError = new TestError('test')
 
 const { propertyIsEnumerable: isEnum, hasOwnProperty: hasOwn } =
@@ -68,7 +72,7 @@ each(
   ],
   ({ title }, name) => {
     test(`Validate against invalid names | ${title}`, (t) => {
-      t.throws(errorCustomClass.bind(undefined, name))
+      t.throws(setErrorName.bind(undefined, TestError, name))
     })
   },
 )

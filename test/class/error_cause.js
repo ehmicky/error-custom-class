@@ -2,4 +2,4 @@
 import 'error-cause/auto'
 
 // eslint-disable-next-line import/no-unassigned-import
-import '../helpers/polyfill.js'
+import '../helpers/class.js'

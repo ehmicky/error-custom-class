@@ -1,12 +1,22 @@
 // eslint-disable-next-line ava/no-ignored-test-files
 import test from 'ava'
-import errorCustomClass from 'error-custom-class'
 import { each } from 'test-each'
 
-const TestError = errorCustomClass('TestError')
-const testError = new TestError('test', { props: { one: true } })
+// eslint-disable-next-line no-restricted-imports
+import { ensureCorrectClass } from '../../src/class.js'
+
+const TestError = class extends Error {
+  constructor(...args) {
+    super(...args)
+    // eslint-disable-next-line fp/no-this
+    ensureCorrectClass(this, new.target)
+    // eslint-disable-next-line fp/no-this, fp/no-mutation
+    this.one = true
+  }
+}
+const testError = new TestError('test')
 const ChildError = class extends TestError {}
-const childError = new ChildError('test', { props: { one: true } })
+const childError = new ChildError('test')
 
 each(
   [
