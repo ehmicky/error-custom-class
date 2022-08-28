@@ -10,8 +10,12 @@ import { setNonEnumProp } from './set.js'
 //  - Also, this would force child classes to also use
 //    `Error.captureStackTrace()`
 /* eslint-disable fp/no-this */
-export default function errorCustomClass(name, onCreate = defaultOnCreate) {
-  const CustomErrorClass = class extends Error {
+export default function errorCustomClass(
+  name,
+  onCreate = defaultOnCreate,
+  ParentClass = Error,
+) {
+  const CustomErrorClass = class extends ParentClass {
     constructor(message, params) {
       super(message, getErrorParams(params))
       fixPrototype(this, new.target.prototype)

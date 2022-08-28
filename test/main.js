@@ -1,5 +1,6 @@
 import test from 'ava'
 import errorCustomClass from 'error-custom-class'
+import { each } from 'test-each'
 
 const { propertyIsEnumerable: isEnum } = Object.prototype
 
@@ -58,4 +59,32 @@ test('Can set undefined error.cause', (t) => {
 
 test('Does not set error.errors by default', (t) => {
   t.false('errors' in testError)
+})
+
+const noop = () => {}
+
+each([TypeError, TestError], ({ title }, ParentClass) => {
+  test(`Can customize parent class | ${title}`, (t) => {
+    const ChildError = errorCustomClass('TestError', noop, ParentClass)
+    const childError = new ChildError('test')
+    t.true(childError instanceof ParentClass)
+    t.true(childError instanceof ChildError)
+  })
+})
+
+test('Parent constructor is called first', (t) => {
+  // eslint-disable-next-line promise/prefer-await-to-callbacks
+  const ParentError = errorCustomClass('ParentError', (error) => {
+    error.prop = 'one'
+  })
+
+  const ChildError = errorCustomClass(
+    'ChildError',
+    (error) => {
+      error.prop += ' two'
+    },
+    ParentError,
+  )
+  const childError = new ChildError('test')
+  t.is(childError.prop, 'one two')
 })
