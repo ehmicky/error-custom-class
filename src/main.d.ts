@@ -24,10 +24,11 @@ export declare class CustomError<
  * const DatabaseError = errorCustomClass('DatabaseError')
  *
  * try {
- *   throw new UserError('message')
+ *   throw new UserError('message', { props: { userId: 56 } })
  * } catch (error) {
  *   console.log(error.name) // 'UserError'
  *   console.log(error instanceof UserError) // true
+ *   console.log(error.userId) // 56
  * }
  * ```
  */
