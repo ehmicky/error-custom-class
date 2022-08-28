@@ -9,13 +9,19 @@ Create custom error classes.
 # Features
 
 - [Simple API](#api): `errorCustomClass('errorName')`
-- Follows [best practices](#best-practices)
-- Error properties are [set on initialization](#error-properties):
-  `new CustomError('message', { props: { example: true } })`
-- Polyfills
+- Error properties are set on initialization
+- Ponyfill
   [`error.cause`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause)
   on
   [older Node.js and browsers](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause#browser_compatibility)
+- Prevent
+  [prototype pollution](https://github.com/ehmicky/error-class-utils#sanitizepropertiesproperties)
+  when setting error properties
+- Properly
+  [set `error.name`](https://github.com/ehmicky/error-class-utils#seterrornameerrorclass-name)
+- Fix
+  [issues](https://github.com/ehmicky/error-class-utils#ensurecorrectclasserror-newtarget)
+  when `Error` has been polyfilled
 
 # Example
 
@@ -26,10 +32,11 @@ const UserError = errorCustomClass('UserError')
 const DatabaseError = errorCustomClass('DatabaseError')
 
 try {
-  throw new UserError('message')
+  throw new UserError('message', { props: { userId: 56 } })
 } catch (error) {
   console.log(error.name) // 'UserError'
   console.log(error instanceof UserError) // true
+  console.log(error.userId) // 56
 }
 ```
 
@@ -45,60 +52,12 @@ not `require()`.
 
 # API
 
-## errorCustomClass(errorName, options?)
+## errorCustomClass(errorName)
 
 `errorName` `string`\
-`options` [`Options?`]()\
 _Return value_: `CustomError`
 
 Creates a custom error class.
-
-### Error properties
-
-Any `props` parameters are set as `error` properties.
-
-```js
-const userError = new UserError('message', { props: { userId: 56 } })
-console.log(userError.userId) // 56
-```
-
-# Best practices
-
-## Constructor
-
-A common pattern for custom error classes is:
-
-<!-- eslint-disable fp/no-class, fp/no-this, fp/no-mutation -->
-
-```js
-class CustomError extends Error {
-  constructor(message) {
-    super(message)
-    this.name = 'CustomError'
-  }
-}
-```
-
-However, this has several issues (which `error-custom-class` handles):
-
-- [`error.cause`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause)
-  is not set
-- Unlike native error classes,
-  [`error.name`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/name)
-  is:
-  - Enumerable, although it should not. For example, `for (const key in error)`
-    will iterate over `name`, which is unexpected.
-  - Set on the error instance instead of its prototype. In Node.js, this
-    sometimes results in the error name being printed as `Error [CustomError]`
-    instead of `CustomError`.
-
-## Polyfills
-
-Some `Error` polyfills (such as
-[`es-shims/error-cause`](https://github.com/es-shims/error-cause)) prevent
-extending from it. This library includes
-[some logic](https://github.com/ehmicky/error-custom-class/blob/4ac5e53dde8a89411a59f16775f91a36ab3662b2/src/main.js#L50)
-to fix this.
 
 # Related projects
 
