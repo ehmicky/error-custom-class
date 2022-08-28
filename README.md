@@ -61,7 +61,7 @@ try {
 
 ```js
 const ParentError = errorCustomClass('ParentError')
-const ChildError = errorCustomClass('ChildError', onCreate, ParentError)
+const ChildError = errorCustomClass('ChildError', { ParentClass: ParentError })
 const childError = new ChildError('message')
 console.log(childError instanceof ChildError) // true
 console.log(childError instanceof ParentError) // true
@@ -69,11 +69,11 @@ console.log(childError instanceof ParentError) // true
 
 ## Custom initialization logic
 
-<!-- eslint-disable promise/prefer-await-to-callbacks -->
-
 ```js
-const DatabaseError = errorCustomClass('DatabaseError', (error, { props }) => {
-  error.dbId = props.databaseId
+const DatabaseError = errorCustomClass('DatabaseError', {
+  onCreate(error, { props }) {
+    error.dbId = props.databaseId
+  },
 })
 const databaseError = new DatabaseError('message', { props: { databaseId: 2 } })
 console.log(databaseError.dbId) // 2
@@ -92,20 +92,31 @@ not `require()`.
 
 # API
 
-## errorCustomClass(errorName, onCreate?, ParentClass?)
+## errorCustomClass(errorName, options?)
 
 `errorName` `string`\
-`onCreate` `(error, params) => void`\
-`ParentClass` `typeof Error`\
+`options` [`Options?`]()\
 _Return value_: `CustomError`
 
-### Custom initialization logic
+### Options
 
-`onCreate(error, params)` is optional and is called on
-`new CustomError('message', params)`.
+Options are an optional object with the following members.
+
+#### onCreate
+
+_Type_: `(error, params) => void`
+
+Called on `new CustomError('message', params)`.
 
 By default, it sets any `params.props` as `error` properties. However, you can
 override it with any custom logic to validate, normalize `params`, etc.
+
+#### ParentClass
+
+_Type_: `typeof Error`\
+_Default_: `Error`
+
+Parent error class.
 
 # Best practices
 

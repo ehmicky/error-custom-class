@@ -34,7 +34,7 @@ export interface Options<
   readonly onCreate?: OnCreate<ErrorNameArg, ErrorParamsArg>
 
   /**
-   *
+   * @default Error
    */
   readonly ParentClass?: Function
 }
