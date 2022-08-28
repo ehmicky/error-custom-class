@@ -1,7 +1,9 @@
-import { ponyfillCause } from './cause.js'
-import { ensureCorrectClass } from './class.js'
-import { setErrorName } from './name.js'
-import { sanitizeProperties } from './sanitize.js'
+import {
+  ponyfillCause,
+  ensureCorrectClass,
+  setErrorName,
+  sanitizeProperties,
+} from 'error-class-utils'
 
 // Create an error class with a specific `name`.
 // We do not call `Error.captureStackTrace(this, CustomErrorClass)` because:

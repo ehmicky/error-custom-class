@@ -45,6 +45,9 @@
     "lib": "src",
     "test": "test"
   },
+  "dependencies": {
+    "error-class-utils": "^0.0.1"
+  },
   "devDependencies": {
     "@ehmicky/dev-tasks": "^1.0.86",
     "error-cause": "^1.0.4",
