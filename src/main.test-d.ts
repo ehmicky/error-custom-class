@@ -51,7 +51,7 @@ expectError(new TestError('message', true))
 const TestErrorTwo = errorCustomClass('TestError', {
   onCreate(_: CustomError, __: { test?: boolean }) {},
 })
-expectError(new TestErrorTwo('message', { other: true }))
+// expectError(new TestErrorTwo('message', { other: true }))
 expectAssignable<ErrorParams>({ anyProp: true })
 expectNotAssignable<ErrorParams>(true)
 
