@@ -106,6 +106,8 @@ to fix this.
   like it's 2022 🔮
 - [`error-custom-classes`](https://github.com/ehmicky/error-custom-classes):
   Create multiple error classes
+- [`error-class-utils`](https://github.com/ehmicky/error-class-utils): Utilities
+  to properly create error classes
 - [`error-serializer`](https://github.com/ehmicky/error-serializer): Convert
   errors to/from plain objects
 - [`normalize-exception`](https://github.com/ehmicky/normalize-exception):
