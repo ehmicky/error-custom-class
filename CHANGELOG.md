@@ -1,3 +1,9 @@
+# 7.1.0
+
+## Features
+
+- Remove unused dependency
+
 # 7.0.0
 
 ## Breaking changes
