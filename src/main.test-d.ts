@@ -37,8 +37,6 @@ expectError(new TestError(true))
 
 new TestError('message', {})
 new TestError('message', { cause: true })
-new TestError('message', { props: { anyProp: true } })
-new TestError('message', { props: { [Symbol('test')]: true } })
 expectError(new TestError('message', true))
 expectAssignable<ErrorParams>({ anyProp: true })
 expectNotAssignable<ErrorParams>(true)

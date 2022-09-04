@@ -3,7 +3,6 @@ import {
   ensureCorrectClass,
   setErrorName,
 } from 'error-class-utils'
-import setErrorProps from 'set-error-props'
 
 // Create an error class with a specific `name`.
 // We do not call `Error.captureStackTrace(this, CustomErrorClass)` because:
@@ -19,7 +18,6 @@ export default function errorCustomClass(name) {
       super(message, parameters)
       ensureCorrectClass(this, new.target)
       ponyfillCause(this, parameters)
-      setErrorProps(this, parameters?.props ?? {})
     }
   }
   setErrorName(CustomErrorClass, name)

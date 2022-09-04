@@ -9,14 +9,10 @@ Create custom error classes.
 # Features
 
 - [Very simple API](#api)
-- Error properties are [set on initialization](#example)
 - Ponyfill
   [`error.cause`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause)
   on
   [older Node.js and browsers](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause#browser_compatibility)
-- Prevent
-  [prototype pollution](https://github.com/ehmicky/set-error-props#prototype-pollution)
-  when setting error properties
 - Properly
   [set `error.name`](https://github.com/ehmicky/error-class-utils#seterrornameerrorclass-name)
 - Fix
@@ -32,11 +28,10 @@ const UserError = errorCustomClass('UserError')
 const DatabaseError = errorCustomClass('DatabaseError')
 
 try {
-  throw new UserError('message', { props: { userId: 56 } })
+  throw new UserError('message')
 } catch (error) {
   console.log(error.name) // 'UserError'
   console.log(error instanceof UserError) // true
-  console.log(error.userId) // 56
 }
 ```
 

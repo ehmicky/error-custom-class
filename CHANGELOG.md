@@ -1,3 +1,10 @@
+# 7.0.0
+
+## Breaking changes
+
+- Error `props` are not set anymore. Please use
+  [`set-error-props`](https://github.com/ehmicky/set-error-props) instead.
+
 # 6.1.0
 
 ## Features

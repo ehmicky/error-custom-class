@@ -64,7 +64,3 @@ test('Does not set error.errors by default', (t) => {
 test('Has correct toString()', (t) => {
   t.is(testError.toString(), 'TestError: test')
 })
-
-test('Sets params.props by default', (t) => {
-  t.true(testError.one)
-})
