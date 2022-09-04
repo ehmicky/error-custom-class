@@ -5,11 +5,7 @@ import {
   expectType,
 } from 'tsd'
 
-import errorCustomClass, {
-  ErrorName,
-  ErrorParams,
-  CustomError,
-} from './main.js'
+import errorCustomClass, { ErrorName, CustomError } from './main.js'
 
 const TestError = errorCustomClass('TestError')
 const testError = new TestError('message')
@@ -38,8 +34,13 @@ expectError(new TestError(true))
 new TestError('message', {})
 new TestError('message', { cause: true })
 expectError(new TestError('message', true))
-expectAssignable<ErrorParams>({ anyProp: true })
-expectNotAssignable<ErrorParams>(true)
+
+const InputError = errorCustomClass<'InputError', { prop: boolean }>(
+  'InputError',
+)
+new InputError('message', { prop: true })
+expectError(new InputError('message', { prop: 'true' }))
+expectError(new InputError('message', { other: true }))
 
 expectType<CustomError<'TestError'>>(testError)
 expectType<InstanceType<typeof TestError>>(testError)

@@ -1,15 +1,15 @@
-import type { ErrorName, ErrorParams } from 'error-class-utils'
+import type { ErrorName } from 'error-class-utils'
 
-export type { ErrorName, ErrorParams }
+export type { ErrorName }
 
 /**
  * Custom error class
  */
 export declare class CustomError<
   ErrorNameArg extends ErrorName = ErrorName,
-  ErrorParamsArg extends ErrorParams = ErrorParams,
+  Options extends object = object,
 > extends Error {
-  constructor(message: string, params?: ErrorParamsArg & { cause?: unknown })
+  constructor(message: string, params?: Options & { cause?: unknown })
   name: ErrorNameArg
 }
 
@@ -33,5 +33,5 @@ export declare class CustomError<
  */
 export default function errorCustomClass<
   ErrorNameArg extends ErrorName = ErrorName,
-  ErrorParamsArg extends ErrorParams = ErrorParams,
->(errorName: ErrorNameArg): typeof CustomError<ErrorNameArg, ErrorParamsArg>
+  Options extends object = object,
+>(errorName: ErrorNameArg): typeof CustomError<ErrorNameArg, Options>
