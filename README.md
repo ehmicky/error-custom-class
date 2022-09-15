@@ -62,8 +62,6 @@ Creates a custom error class.
 
 - [`modern-errors`](https://github.com/ehmicky/modern-errors): Handle errors
   like it's 2022 🔮
-- [`modern-errors-plugins`](https://github.com/ehmicky/modern-errors-plugins):
-  Plugins for `modern-errors`
 - [`error-class-utils`](https://github.com/ehmicky/error-class-utils): Utilities
   to properly create error classes
 - [`error-serializer`](https://github.com/ehmicky/error-serializer): Convert
