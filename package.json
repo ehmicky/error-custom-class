@@ -34,7 +34,7 @@
     "error-reporting",
     "error-classes"
   ],
-  "license": "Apache-2.0",
+  "license": "MIT",
   "homepage": "https://www.github.com/ehmicky/error-custom-class",
   "repository": "ehmicky/error-custom-class",
   "bugs": {

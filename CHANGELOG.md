@@ -1,3 +1,9 @@
+# 7.3.1
+
+## Bug fixes
+
+- Fix `package.json`
+
 # 7.3.0
 
 - Switch to MIT license
