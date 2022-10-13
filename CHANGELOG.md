@@ -1,3 +1,7 @@
+# 7.3.0
+
+- Switch to MIT license
+
 # 7.2.0
 
 ## Features
