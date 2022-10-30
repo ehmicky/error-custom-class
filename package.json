@@ -50,7 +50,7 @@
     "error-class-utils": "^2.2.2"
   },
   "devDependencies": {
-    "@ehmicky/dev-tasks": "^1.0.96",
+    "@ehmicky/dev-tasks": "^1.0.97",
     "error-cause": "^1.0.4",
     "error-cause-polyfill": "^1.2.1",
     "test-each": "^5.4.1"
