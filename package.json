@@ -1,6 +1,6 @@
 {
   "name": "error-custom-class",
-  "version": "8.2.1",
+  "version": "8.3.0",
   "type": "module",
   "exports": {
     "types": "./build/types/main.d.ts",
