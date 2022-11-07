@@ -5,7 +5,7 @@ import {
   expectType,
 } from 'tsd'
 
-import errorCustomClass, { ErrorName, CustomError } from './main.js'
+import errorCustomClass, { ErrorName, CustomError } from 'error-custom-class'
 
 const TestError = errorCustomClass('TestError')
 const testError = new TestError('message')
