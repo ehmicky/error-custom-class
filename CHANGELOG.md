@@ -1,3 +1,9 @@
+# 7.5.0
+
+## Features
+
+- Improve tree-shaking support
+
 # 7.4.0
 
 ## Features
