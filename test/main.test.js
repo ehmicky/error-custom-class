@@ -50,7 +50,7 @@ const isStackLine = function (line) {
 test('error.stack does not include the constructor', (t) => {
   const lines = testError.stack.split('\n')
   const stackIndex = lines.findIndex(isStackLine)
-  t.true(lines[stackIndex].includes('main.js'))
+  t.true(lines[stackIndex].includes('main.test.js'))
 })
 
 test('Sets error.cause', (t) => {
