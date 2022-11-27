@@ -1,3 +1,5 @@
+import { basename } from 'node:path'
+
 import test from 'ava'
 import errorCustomClass from 'error-custom-class'
 
@@ -50,7 +52,7 @@ const isStackLine = function (line) {
 test('error.stack does not include the constructor', (t) => {
   const lines = testError.stack.split('\n')
   const stackIndex = lines.findIndex(isStackLine)
-  t.true(lines[stackIndex].includes('main.test.js'))
+  t.true(lines[stackIndex].includes(basename(import.meta.url)))
 })
 
 test('Sets error.cause', (t) => {
