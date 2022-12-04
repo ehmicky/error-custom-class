@@ -5,6 +5,7 @@ export type { ErrorName }
 /**
  * Custom error class
  */
+// eslint-disable-next-line fp/no-class
 export declare class CustomError<
   ErrorNameArg extends ErrorName = ErrorName,
   Options extends object = object,
