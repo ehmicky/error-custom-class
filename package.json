@@ -52,7 +52,7 @@
     "test": "test"
   },
   "dependencies": {
-    "error-class-utils": "^2.4.0"
+    "error-class-utils": "^2.5.0"
   },
   "devDependencies": {
     "@ehmicky/dev-tasks": "^2.0.52",
