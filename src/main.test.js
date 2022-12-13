@@ -46,9 +46,7 @@ test('error.stack is not enumerable', (t) => {
   t.false(isEnum.call(testError, 'stack'))
 })
 
-const isStackLine = function (line) {
-  return line.trim().startsWith('at ')
-}
+const isStackLine = (line) => line.trim().startsWith('at ')
 
 test('error.stack does not include the constructor', (t) => {
   const lines = testError.stack.split('\n')
