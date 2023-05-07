@@ -1,38 +1,38 @@
-# 8.0.0
+# 9.0.0
 
 ## Breaking changes
 
 - Minimal supported Node.js version is now `16.17.0`
 
-# 7.5.0
+# 8.4.0
 
 ## Features
 
 - Improve tree-shaking support
 
-# 7.4.0
+# 8.3.0
 
 ## Features
 
 - Add browser support
 
-# 7.3.1
+# 8.2.1
 
 ## Bug fixes
 
 - Fix `package.json`
 
-# 7.3.0
+# 8.2.0
 
 - Switch to MIT license
 
-# 7.2.0
+# 8.1.0
 
 ## Features
 
 - Improve TypeScript types
 
-# 7.1.0
+# 8.0.0
 
 ## Features
 
