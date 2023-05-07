@@ -4,8 +4,7 @@ import test from 'ava'
 
 import errorCustomClass from 'error-custom-class'
 
-const { propertyIsEnumerable: isEnum, hasOwnProperty: hasOwn } =
-  Object.prototype
+const { propertyIsEnumerable: isEnum } = Object.prototype
 
 const TestError = errorCustomClass('TestError')
 const testError = new TestError('test', { props: { one: true, name: 'name' } })
@@ -18,7 +17,7 @@ test('Has right error class', (t) => {
 
 test('Sets error.name', (t) => {
   t.is(testError.name, 'TestError')
-  t.false(hasOwn.call(testError, 'name'))
+  t.false(Object.hasOwn(testError, 'name'))
 })
 
 test('Validate against invalid names', (t) => {
