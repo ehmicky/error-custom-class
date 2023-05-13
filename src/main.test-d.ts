@@ -1,8 +1,9 @@
+import { expectAssignable, expectNotAssignable, expectType } from 'tsd'
+
 import errorCustomClass, {
   type ErrorName,
   type CustomError,
 } from 'error-custom-class'
-import { expectAssignable, expectNotAssignable, expectType } from 'tsd'
 
 const TestError = errorCustomClass('TestError')
 const testError = new TestError('message')
