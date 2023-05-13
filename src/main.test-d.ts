@@ -4,7 +4,6 @@ import errorCustomClass, {
 } from 'error-custom-class'
 import { expectAssignable, expectNotAssignable, expectType } from 'tsd'
 
-
 const TestError = errorCustomClass('TestError')
 const testError = new TestError('message')
 
