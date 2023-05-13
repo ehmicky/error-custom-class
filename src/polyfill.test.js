@@ -1,6 +1,7 @@
 import test from 'ava'
 // eslint-disable-next-line n/file-extension-in-import, import/no-unassigned-import
 import 'error-cause/auto'
+
 import errorCustomClass from 'error-custom-class'
 
 test('Polyfilled errors have the correct class', (t) => {

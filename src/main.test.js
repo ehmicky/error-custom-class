@@ -1,6 +1,7 @@
 import { basename } from 'node:path'
 
 import test from 'ava'
+
 import errorCustomClass from 'error-custom-class'
 
 const { propertyIsEnumerable: isEnum, hasOwnProperty: hasOwn } =
