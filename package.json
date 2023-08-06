@@ -42,7 +42,10 @@
   ],
   "license": "MIT",
   "homepage": "https://www.github.com/ehmicky/error-custom-class",
-  "repository": "ehmicky/error-custom-class",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ehmicky/error-custom-class.git"
+  },
   "bugs": {
     "url": "https://github.com/ehmicky/error-custom-class/issues"
   },
