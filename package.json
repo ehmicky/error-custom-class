@@ -57,7 +57,7 @@
     "error-class-utils": "^4.0.0"
   },
   "devDependencies": {
-    "@ehmicky/dev-tasks": "^2.0.108",
+    "@ehmicky/dev-tasks": "^2.0.109",
     "error-cause": "^1.0.6",
     "error-cause-polyfill": "^3.0.0",
     "test-each": "^7.0.0"
