@@ -68,15 +68,14 @@
 
 ## Breaking changes
 
-- The [`onCreate`](README.md#oncreate) and
-  [`ParentClass`](README.md#parentclass) positional parameters are now named
-  parameters inside an [options object](README.md#options).
+- The `onCreate` and `ParentClass` positional parameters are now named
+  parameters inside an options object.
 
 # 4.1.0
 
 ## Feature
 
-- Allow specifying the [parent error class](README.md#parent-class)
+- Allow specifying the parent error class
 
 # 4.0.0
 
