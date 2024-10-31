@@ -1,6 +1,6 @@
 import {
-  ponyfillCause,
   ensureCorrectClass,
+  ponyfillCause,
   setErrorName,
 } from 'error-class-utils'
 
