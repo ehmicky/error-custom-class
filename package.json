@@ -1,6 +1,6 @@
 {
   "name": "error-custom-class",
-  "version": "10.0.0",
+  "version": "10.0.1",
   "type": "module",
   "exports": {
     "types": "./build/src/main.d.ts",
