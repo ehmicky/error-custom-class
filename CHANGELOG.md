@@ -1,3 +1,9 @@
+# 10.0.1
+
+## Documentation
+
+- Improve documentation in `README.md`
+
 # 10.0.0
 
 ## Breaking changes
